@@ -1,26 +1,57 @@
 import { useState, useEffect } from 'react'
+import * as uuid from 'uuid';
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import firstNames from '../first-names.json';
 import lastNames from '../names.json';
 
-export default function Home({reloading}) {
+export default function Home() {
 
-  const [name, setName] = useState(getRandomName())
-  const [email, setEmail] = useState(getRandomEmail())
-  const [keys, setKeys] = useState([getRandomKey(16, false, true, false, false), getRandomKey(12), getRandomKey(16)])
+  const getNames = length => {
+    return Array.from({ length }, getRandomName)
+  }
+  const getEmails = length => {
+    return Array.from({ length }, getRandomEmail)
+  }
+  const genPersona = (personaName) => {
+    return { name: personaName, password: getRandomKey(12), uuid: uuid.v4(), email: getRandomEmail({ disposable: true, name: personaName }) }
+  }
+
+  const [names, setNames] = useState(getNames(3))
+  const [emails, setEmails] = useState(getEmails(3))
+  const [keys, setKeys] = useState([getRandomKey(16, false, true, false, false), getRandomKey(12), uuid.v4()])
   const [passwords, setPasswords] = useState([getRandomKey(8), getRandomKey(12), getRandomKey(16)])
+  const personaName = getRandomName()
+  const [persona, setPersona] = useState(genPersona(personaName))
+  const [personaEmails, setPersonaEmails] = useState([])
 
   const handleGenerateClick = async event => {
     event.preventDefault()
-    setName(getRandomName())
-    setEmail(getRandomEmail())
-    setKeys([getRandomKey(16,false,true,false,false), getRandomKey(12), getRandomKey(16)])
+
+    setNames(getNames(3))
+    setEmails(getEmails(3))
+    setKeys([getRandomKey(16, false, true, false, false), getRandomKey(16), uuid.v4()])
     setPasswords([getRandomKey(8), getRandomKey(12), getRandomKey(16)])
+
+    const personaName = getRandomName()
+    const newPersona = genPersona(personaName)
+    setPersona(newPersona)
+    setPersonaEmails([])
   }
+
   const handleInputClick = async event => {
-      event.target.select()
-      document.execCommand('copy');
+    event.target.select()
+    document.execCommand('copy');
+  }
+
+  const handleEmailRefreshClick = async event => {
+    const newNick = getMailNickname(persona.name)
+    const res = await fetch(`https://www.1secmail.com/api/v1/?action=getMessages&login=${newNick}&domain=1secmail.org`)
+    const json = await res.json()
+
+    if (json.length) {
+      setPersonaEmails(json)
+    }
   }
 
   return (
@@ -40,29 +71,47 @@ export default function Home({reloading}) {
 
           <div className={styles.card}>
             <h3>Names</h3>
+            {
+              names.map(name => <input type="text" className="name" size="20" readOnly value={name} onClick={handleInputClick} key={name} />)
+            }
+            <hr />
             <div>Total first names: {firstNames.length}</div>
             <div>Total last names: {lastNames.length}</div>
-            <input type="text" className="name" size="20" readOnly value={name} onClick={handleInputClick} />
           </div>
 
-          <a className={styles.card}>
-            <h3>Emails</h3>
-            <input type="text" className="email" size="40" readOnly value={email} onClick={handleInputClick} />
-          </a>
+          <div className={styles.card}>
+            <h3>Persona</h3>
+            <button onClick={handleEmailRefreshClick}>check email</button>
+            <input type="text" className="persona" size="20" readOnly value={persona.name} onClick={handleInputClick} />
+            <input type="text" className="persona" size="40" readOnly value={persona.uuid} onClick={handleInputClick} />
+            <input type="text" className="persona" size="40" readOnly value={persona.email} onClick={handleInputClick} />
+            <input type="text" className="persona" size="20" readOnly value={persona.password} onClick={handleInputClick} />
+            <hr />
+            {
+              personaEmails.length ? personaEmails.map(msg => <div>{[msg.date, msg.subject, msg.from].join(' | ')}</div>) : <div>No messages</div>
+            }
+          </div>
 
-          <a className={styles.card}>
+          <div className={styles.card}>
+            <h3>Emails</h3>
+            {
+              emails.map(email => <input type="text" className="email" size="40" readOnly value={email} onClick={handleInputClick} key={email} />)
+            }
+          </div>
+
+          <div className={styles.card}>
             <h3>Passwords</h3>
             {
-              passwords.map(password => <input type="text" className="password" size="20" readOnly value={password} onClick={handleInputClick} key={password}/>)
+              passwords.map(password => <input type="text" className="password" size="20" readOnly value={password} onClick={handleInputClick} key={password} />)
             }
-          </a>
+          </div>
 
-          <a className={styles.card}>
+          <div className={styles.card}>
             <h3>Keys</h3>
             {
-              keys.map(key => <input type="text" className="password" size="20" readOnly value={key} onClick={handleInputClick} key={key}/>)
+              keys.map(key => <input type="text" className="password" size="40" readOnly value={key} onClick={handleInputClick} key={key} />)
             }
-          </a>
+          </div>
 
           <div>
             <h3>Notes & tips</h3>
@@ -75,25 +124,13 @@ export default function Home({reloading}) {
         </div>
       </main>
 
-      <footer className={styles.footer}>
-        
-      </footer>
+      <footer className={styles.footer}></footer>
     </div>
   )
 }
 
-export async function getServerSideProps(context) {
-
-  const displayName = getRandomKey(3);
-  const email = getRandomEmail();
-  const keys = [getRandomKey(16, false, true, false, false), getRandomKey(12), getRandomKey(16)]
-  const passwords = [getRandomKey(8), getRandomKey(12), getRandomKey(16)]
-
-  return {
-    props: {
-      email, keys, passwords
-    },
-  }
+export async function getServerSideProps() {
+  return { props: {} }
 }
 
 function getRandomKey(
@@ -111,26 +148,39 @@ function getRandomKey(
   const special = '`~!@#$%^&*()-=_+[]{}|;\':",./<>?';
   const hex = '123456789ABCDEF';
 
- 
-    let chars = '';
-    let key = '';
+  let chars = '';
+  let key = '';
 
-    if (useLowerCase) chars += lowerCase;
-    if (useUpperCase) chars += upperCase;
-    if (useNumbers) chars += numbers;
-    if (useSpecial) chars += special;
-    if (useHex) chars += hex;
+  if (useLowerCase) chars += lowerCase;
+  if (useUpperCase) chars += upperCase;
+  if (useNumbers) chars += numbers;
+  if (useSpecial) chars += special;
+  if (useHex) chars += hex;
 
-    for (let i = 0; i < length; i++) {
-      key += chars[Math.floor(Math.random() * chars.length)];
+  for (let i = 0; i < length; i++) {
+    key += chars[Math.floor(Math.random() * chars.length)];
+  }
+
+  return key;
+}
+function getRandomEmail(options) {
+  const emailDomains = ['gmail.com', 'googlemail.com', 'hotmail.com']
+  let domain = emailDomains[Math.floor(Math.random() * emailDomains.length)];
+  let nick = getRandomKey(12, true, false, true, false, false);
+
+  if (options){
+    const { disposable, name } = options
+    if (disposable) {
+      domain = '1secmail.org'
     }
 
-    return key;
-}
-function getRandomEmail() {
-  const emailDomains = ['gmail.com', 'googlemail.com', 'hotmail.com']
-  const domain = emailDomains[Math.floor(Math.random() * emailDomains.length)];
-  return getRandomKey(12, true, false, true, false, false) + '@' + domain
+    if (name) {
+      // try to generate email address similar to the name provided
+      nick = getMailNickname(name)
+    }
+  }
+
+  return  nick + '@' + domain
 }
 
 function getRandomName() {
@@ -138,4 +188,8 @@ function getRandomName() {
   const lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
 
   return firstName + ' ' + lastName
+}
+
+function getMailNickname(name) {
+  return name.replace(' ', '.').toLowerCase();
 }
