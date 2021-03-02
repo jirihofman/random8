@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { success } from 'toastr';
 import * as uuid from 'uuid';
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
@@ -16,11 +17,17 @@ export default function Home() {
   const genPersona = (personaName) => {
     return { name: personaName, password: getRandomKey(12), uuid: uuid.v4(), email: getRandomEmail({ disposable: true, name: personaName }) }
   }
+  const getPasswords = () => {
+    return [getRandomKey(8), getRandomKey(12), getRandomKey(16), getRandomKey(32)]
+  }
+  const getKeys = () => {
+    return [getRandomKey(16, false, true, false, false), getRandomKey(16), uuid.v4()]
+  }
 
   const [names, setNames] = useState(getNames(3))
   const [emails, setEmails] = useState(getEmails(3))
-  const [keys, setKeys] = useState([getRandomKey(16, false, true, false, false), getRandomKey(12), uuid.v4()])
-  const [passwords, setPasswords] = useState([getRandomKey(8), getRandomKey(12), getRandomKey(16)])
+  const [keys, setKeys] = useState(getKeys())
+  const [passwords, setPasswords] = useState(getPasswords())
   const personaName = getRandomName()
   const [persona, setPersona] = useState(genPersona(personaName))
   const [personaEmails, setPersonaEmails] = useState([])
@@ -30,8 +37,8 @@ export default function Home() {
 
     setNames(getNames(3))
     setEmails(getEmails(3))
-    setKeys([getRandomKey(16, false, true, false, false), getRandomKey(16), uuid.v4()])
-    setPasswords([getRandomKey(8), getRandomKey(12), getRandomKey(16)])
+    setKeys(getKeys())
+    setPasswords(getPasswords())
 
     const personaName = getRandomName()
     const newPersona = genPersona(personaName)
@@ -42,6 +49,7 @@ export default function Home() {
   const handleInputClick = async event => {
     event.target.select()
     document.execCommand('copy');
+    success(event.target.value, 'Copied!')
   }
 
   const handleEmailRefreshClick = async event => {
@@ -64,7 +72,7 @@ export default function Home() {
       <main className={styles.main}>
 
         <button onClick={handleGenerateClick} >
-          <h1>Random8 &rarr; click</h1>
+          <span>Random8 &rarr; click</span>
         </button>
 
         <div className={styles.grid}>
@@ -72,23 +80,7 @@ export default function Home() {
           <div className={styles.card}>
             <h3>Names</h3>
             {
-              names.map(name => <input type="text" className="name" size="20" readOnly value={name} onClick={handleInputClick} key={name} />)
-            }
-            <hr />
-            <div>Total first names: {firstNames.length}</div>
-            <div>Total last names: {lastNames.length}</div>
-          </div>
-
-          <div className={styles.card}>
-            <h3>Persona</h3>
-            <button onClick={handleEmailRefreshClick}>check email</button>
-            <input type="text" className="persona" size="20" readOnly value={persona.name} onClick={handleInputClick} />
-            <input type="text" className="persona" size="40" readOnly value={persona.uuid} onClick={handleInputClick} />
-            <input type="text" className="persona" size="40" readOnly value={persona.email} onClick={handleInputClick} />
-            <input type="text" className="persona" size="20" readOnly value={persona.password} onClick={handleInputClick} />
-            <hr />
-            {
-              personaEmails.length ? personaEmails.map(msg => <div>{[msg.date, msg.subject, msg.from].join(' | ')}</div>) : <div>No messages</div>
+              names.map(name => <input type="text" className="name" size="40" readOnly value={name} onClick={handleInputClick} key={name} />)
             }
           </div>
 
@@ -100,9 +92,34 @@ export default function Home() {
           </div>
 
           <div className={styles.card}>
+            <h3>Persona</h3>
+            <div>
+              <label>Name</label>
+              <input type="text" className="persona" size="20" readOnly value={persona.name} onClick={handleInputClick} />
+              <button onClick={handleEmailRefreshClick}>check email</button>
+            </div>
+            <div>
+              <label>UUID</label>
+              <input type="text" className="persona" size="32" readOnly value={persona.uuid} onClick={handleInputClick} />
+            </div>
+            <div>
+              <label>Email</label>
+              <input type="text" className="persona" size="32" readOnly value={persona.email} onClick={handleInputClick} />
+            </div>
+            <div>
+              <label>Pwd</label>
+              <input type="text" className="persona" size="20" readOnly value={persona.password} onClick={handleInputClick} />
+            </div>
+            <hr />
+            {
+              personaEmails.length ? personaEmails.map(msg => <div>{[msg.date, msg.subject, msg.from].join(' | ')}</div>) : <div>No messages</div>
+            }
+          </div>
+
+          <div className={styles.card}>
             <h3>Passwords</h3>
             {
-              passwords.map(password => <input type="text" className="password" size="20" readOnly value={password} onClick={handleInputClick} key={password} />)
+              passwords.map(password => <input type="text" className="password" size="40" readOnly value={password} onClick={handleInputClick} key={password} />)
             }
           </div>
 
@@ -119,6 +136,10 @@ export default function Home() {
               <li>Just click the input and its value is copied into clipboard automatically.</li>
               <li>Keygen source <a href="https://randomkeygen.com/">https://randomkeygen.com/</a></li>
               <li>Random names from <a href="https://github.com/dominictarr/random-name">https://github.com/dominictarr/random-name</a></li>
+              <li>            
+                <div>Number of first names: {firstNames.length}</div>
+                <div>Number of last names: {lastNames.length}</div>
+              </li>
             </ul>
           </div>
         </div>
