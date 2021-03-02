@@ -81,14 +81,15 @@
 }
 
 .card {
-  margin: 1rem;
+  min-width: 350px;
+  margin: 0.3rem;
   flex-basis: 45%;
-  padding: 1.5rem;
+  padding: 0.5rem;
   text-align: left;
   color: inherit;
   text-decoration: none;
-  border: 5px solid #eaeaea;
-  border-radius: 10px;
+  border: 3px solid #aaaaaa;
+  border-radius: 7px;
   transition: color 0.15s ease, border-color 0.15s ease;
 }
 
@@ -100,7 +101,7 @@
 }
 
 .card h3 {
-  margin: 0 0 1rem 0;
+  margin: 0 0 0.3rem 0;
   font-size: 1.5rem;
 }
 
@@ -113,12 +114,16 @@
 .card label {
   padding-right: 3em;
   color: red;
-  max-width: 60px;
+  max-width: 45px;
   display: inline-block;
 }
 
 .logo {
   height: 1em;
+}
+
+button#random8 {
+  min-width: 350px;
 }
 
 @media (max-width: 600px) {

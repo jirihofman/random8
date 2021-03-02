@@ -71,7 +71,7 @@ export default function Home() {
 
       <main className={styles.main}>
 
-        <button onClick={handleGenerateClick} >
+        <button onClick={handleGenerateClick} id={styles.random8} title="Click to generate new data for each seaction.">
           <span>Random8 &rarr; click</span>
         </button>
 
@@ -133,7 +133,7 @@ export default function Home() {
           <div>
             <h3>Notes & tips</h3>
             <ul>
-              <li>Just click the input and its value is copied into clipboard automatically.</li>
+              <li>Simply <b>click the input</b> and its value is copied into clipboard automatically.</li>
               <li>Keygen source <a href="https://randomkeygen.com/">https://randomkeygen.com/</a></li>
               <li>Random names from <a href="https://github.com/dominictarr/random-name">https://github.com/dominictarr/random-name</a></li>
               <li>            
