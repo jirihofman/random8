@@ -112,7 +112,9 @@ export default function Home() {
             </div>
             <hr />
             {
-              personaEmails.length ? personaEmails.map(msg => <div>{[msg.date, msg.subject, msg.from].join(' | ')}</div>) : <div>No messages</div>
+              personaEmails.length ? personaEmails.map(msg => <div style={{'font-size': '10px'}}>
+                <a href={`https://www.1secmail.com/mailbox/?action=readMessage&id=${msg.id}&login=${getMailNickname(persona.name)}&domain=1secmail.org`} target="_blank">{msg.date}</a>
+                {[msg.subject.substr(100), msg.from].join(' | ')}</div>) : <div>No messages</div>
             }
           </div>
 
@@ -184,6 +186,7 @@ function getRandomKey(
 
   return key;
 }
+
 function getRandomEmail(options) {
   const emailDomains = ['gmail.com', 'googlemail.com', 'hotmail.com']
   let domain = emailDomains[Math.floor(Math.random() * emailDomains.length)];
