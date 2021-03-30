@@ -80,14 +80,14 @@ export default function Home() {
           <div className={styles.card}>
             <h3>Names</h3>
             {
-              names.map(name => <input type="text" className="name" size="40" readOnly value={name} onClick={handleInputClick} key={name} />)
+              names.map(name => <input type="text" className="name" size="35" readOnly value={name} onClick={handleInputClick} key={name} />)
             }
           </div>
 
           <div className={styles.card}>
             <h3>Emails</h3>
             {
-              emails.map(email => <input type="text" className="email" size="40" readOnly value={email} onClick={handleInputClick} key={email} />)
+              emails.map(email => <input type="text" className="email" size="35" readOnly value={email} onClick={handleInputClick} key={email} />)
             }
           </div>
 
@@ -95,7 +95,7 @@ export default function Home() {
             <h3>Persona</h3>
             <div>
               <label>Name</label>
-              <input type="text" className="persona" size="20" readOnly value={persona.name} onClick={handleInputClick} />
+              <input type="text" className="persona" size="18" readOnly value={persona.name} onClick={handleInputClick} />
               <button onClick={handleEmailRefreshClick}>check email</button>
             </div>
             <div>
@@ -121,14 +121,14 @@ export default function Home() {
           <div className={styles.card}>
             <h3>Passwords</h3>
             {
-              passwords.map(password => <input type="text" className="password" size="40" readOnly value={password} onClick={handleInputClick} key={password} />)
+              passwords.map(password => <input type="text" className="password" size="35" readOnly value={password} onClick={handleInputClick} key={password} />)
             }
           </div>
 
           <div className={styles.card}>
             <h3>Keys</h3>
             {
-              keys.map(key => <input type="text" className="password" size="40" readOnly value={key} onClick={handleInputClick} key={key} />)
+              keys.map(key => <input type="text" className="password" size="35" readOnly value={key} onClick={handleInputClick} key={key} />)
             }
           </div>
 
