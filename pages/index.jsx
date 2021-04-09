@@ -62,6 +62,15 @@ export default function Home() {
     }
   }
 
+  const handleEmailCopyAllClick = async () => {
+    const hidden = document.getElementById('emailsAll');
+    hidden.value = emails.join();
+    hidden.select();
+    document.execCommand('copy');
+    success(hidden.value, 'Copied!')
+    hidden.value = ''
+  }
+
   return (
     <div className={styles.container}>
       <Head>
@@ -85,7 +94,8 @@ export default function Home() {
           </div>
 
           <div className={styles.card}>
-            <h3>Emails</h3>
+            <h3>Emails <button onClick={handleEmailCopyAllClick} title="comma separated">Copy all emails</button></h3>
+            <input type="text" id="emailsAll" value="" style={{ display: 'block', position: 'absolute', zIndex: '-1' }} />
             {
               emails.map(email => <input type="text" className="email" size="35" readOnly value={email} onClick={handleInputClick} key={email} />)
             }
