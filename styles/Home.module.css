@@ -122,6 +122,9 @@
 
 button#random8 {
   min-width: 350px;
+  padding: 20px;
+  border: 2px dotted gray;
+  border-radius: 10px;
 }
 
 @media (max-width: 600px) {

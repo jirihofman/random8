@@ -23,11 +23,25 @@ export default function Home() {
   const getKeys = () => {
     return [getRandomKey(16, false, true, false, false), getRandomKey(16), uuid.v4()]
   }
+  const getNumbers = () => {
+    return [
+      getRandomKey(4, false, false, true, false, false), 
+      getRandomKey(8, false, false, true, false, false), 
+      getRandomKey(12, false, false, true, false, false), 
+      getRandomKey(4, false, false, true, false, false), 
+      getRandomKey(8, false, false, true, false, false), 
+      getRandomKey(12, false, false, true, false, false), 
+      getRandomKey(4, false, false, true, false, false),
+      getRandomKey(8, false, false, true, false, false),
+      getRandomKey(12, false, false, true, false, false),
+    ]
+  }
 
   const [names, setNames] = useState(getNames(3))
   const [emails, setEmails] = useState(getEmails(3))
   const [keys, setKeys] = useState(getKeys())
   const [passwords, setPasswords] = useState(getPasswords())
+  const [numbers, setNumbers] = useState(getNumbers())
   const personaName = getRandomName()
   const [persona, setPersona] = useState(genPersona(personaName))
   const [personaEmails, setPersonaEmails] = useState([])
@@ -39,6 +53,7 @@ export default function Home() {
     setEmails(getEmails(3))
     setKeys(getKeys())
     setPasswords(getPasswords())
+    setNumbers(getNumbers())
 
     const personaName = getRandomName()
     const newPersona = genPersona(personaName)
@@ -142,6 +157,19 @@ export default function Home() {
             }
           </div>
 
+          <div className={styles.card}>
+            <h3>Numbers</h3>
+            {
+              numbers.map((key, index) => {
+                const size = [0, 3, 6].includes(index) ? 5 : [1, 4, 7].includes(index) ? 10 : 14
+                return <span>
+                  <input type="text" className="number" size={size} readOnly value={key} onClick={handleInputClick} key={key} style={{paddingLeft: '1em'}} />
+                  {[2, 5, 8].includes(index) && <br />}
+                </span>
+              })
+            }
+          </div>
+
           <div>
             <h3>Notes & tips</h3>
             <ul>
@@ -157,7 +185,9 @@ export default function Home() {
         </div>
       </main>
 
-      <footer className={styles.footer}></footer>
+      <footer className={styles.footer}>
+        <a href="https://github.com/jirihofman/random8/" target="_blank">GitHub</a>
+      </footer>
     </div>
   )
 }
