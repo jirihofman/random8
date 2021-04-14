@@ -250,10 +250,11 @@ function getRandomEmail(options) {
 function getRandomName() {
   const firstName = firstNames[Math.floor(Math.random() * firstNames.length)];
   const lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
+  const middleName = Math.random() > 0.7 ? firstNames[Math.floor(Math.random() * firstNames.length)] : undefined;
 
-  return firstName + ' ' + lastName
+  return [firstName, middleName, lastName].filter(Boolean).join(' ');
 }
 
-function getMailNickname(name) {
-  return name.replace(' ', '.').toLowerCase();
+function getMailNickname(name = '') {
+  return name.replace(/ /g, '.').toLowerCase();
 }
