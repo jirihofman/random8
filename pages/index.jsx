@@ -110,7 +110,7 @@ export default function Home() {
 
           <div className={styles.card}>
             <h3>Emails <button onClick={handleEmailCopyAllClick} title="comma separated">Copy all emails</button></h3>
-            <input type="text" id="emailsAll" value="" style={{ display: 'block', position: 'absolute', zIndex: '-1' }} />
+            <input type="text" id="emailsAll" value="" style={{ display: 'block', position: 'absolute', zIndex: '-1' }} readOnly />
             {
               emails.map(email => <input type="text" className="email" size="35" readOnly value={email} onClick={handleInputClick} key={email} />)
             }
