@@ -19,5 +19,8 @@
     "react-dom": "17.0.1",
     "toastr": "^2.1.4",
     "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "cypress": "7.1.0"
   }
 }
