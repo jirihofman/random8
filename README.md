@@ -1,3 +1,4 @@
+[![random8](https://img.shields.io/endpoint?url=https://dashboard.cypress.io/badge/detailed/4n8wi4/main&style=plastic&logo=cypress)](https://dashboard.cypress.io/projects/4n8wi4/runs)
 # Random8
 Random8 enables you to quickly get and generate random values such as: email addresses, names, numbers, passwords and strings (uuid, code, hash). It was developed for personal use where I deal with random data on daily basis (as a software developer). 
 ## Getting Started
