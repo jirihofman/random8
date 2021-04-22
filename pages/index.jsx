@@ -181,9 +181,9 @@ export default function Home() {
             </ul>
             <h3>Credits</h3>
             <ul>
-              <li>Email service by <a href="https://www.1secmail.com/">https://www.1secmail.com/</a></li>
-              <li>Keygen source <a href="https://randomkeygen.com/">https://randomkeygen.com/</a></li>
-              <li>Random names from <a href="https://github.com/dominictarr/random-name">https://github.com/dominictarr/random-name</a></li>
+              <li>Email service by <a href="https://www.1secmail.com/" rel="noopener noreferrer">https://www.1secmail.com/</a></li>
+              <li>Keygen source <a href="https://randomkeygen.com/" rel="noopener noreferrer">https://randomkeygen.com/</a></li>
+              <li>Random names from <a href="https://github.com/dominictarr/random-name" rel="noopener noreferrer">https://github.com/dominictarr/random-name</a></li>
             </ul>
           </div>
         </div>
