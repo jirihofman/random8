@@ -10,7 +10,7 @@
   "scripts": {
     "dev": "next dev -p 4043",
     "build": "next build",
-    "start": "next start"
+    "start": "next start -p 2999"
   },
   "dependencies": {
     "balajs": "^1.0.10",
