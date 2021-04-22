@@ -1,4 +1,8 @@
 {
+<<<<<<< HEAD
 	"baseUrl": "http://localhost:4043",
 	"projectId": "4n8wi4"
+=======
+	"baseUrl": "http://localhost:4043"
+>>>>>>> fa9c777873996ae8a2728a5f0aa2c66ba0ee5526
 }
