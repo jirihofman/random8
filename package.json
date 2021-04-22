@@ -1,7 +1,12 @@
 {
   "name": "random8",
-  "version": "0.2.0",
-  "private": true,
+  "version": "0.9.0",
+  "private": false,
+  "author": {
+    "email": "jiri.hofman@gmail.com",
+    "name": "Jiří Hofman",
+    "url": "https://github.com/jirihofman/random8"
+  },
   "scripts": {
     "dev": "next dev -p 4043",
     "build": "next build",
