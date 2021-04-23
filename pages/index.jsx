@@ -190,7 +190,8 @@ export default function Home() {
       </main>
 
       <footer className={styles.footer}>
-        <a href="https://github.com/jirihofman/random8/" target="_blank">GitHub</a>
+        <iframe src="https://ghbtns.com/github-btn.html?user=jirihofman&repo=random8&type=star&count=true&size=large&v=2" frameborder="0" scrolling="0" width="170" height="30" title="GitHub"></iframe>
+        <iframe src="https://github.com/sponsors/jirihofman/button" title="Sponsor jirihofman" height="35" width="116" style={{border: 0}}></iframe>
       </footer>
     </div>
   )
