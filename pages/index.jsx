@@ -72,6 +72,14 @@ export default function Home() {
     const res = await fetch(`https://www.1secmail.com/api/v1/?action=getMessages&login=${newNick}&domain=1secmail.org`)
     const json = await res.json()
 
+    let i = 0;
+    for (const email of json) {
+      const res = await fetch(`https://www.1secmail.com/api/v1/?action=readMessage&login=${newNick}&domain=1secmail.org&id=${email.id}`)
+      const emailDetails = await res.json();
+      const href = emailDetails.body.match(/.*href="([^"]+)".*/)
+      if (href && href[1]) json[i].firstHref = href[1];
+      i++;
+    }
     if (json.length) {
       setPersonaEmails(json)
     }
@@ -137,8 +145,9 @@ export default function Home() {
             </div>
             <hr />
             {
-              personaEmails.length ? personaEmails.map(msg => <div style={{'font-size': '10px'}}>
+              personaEmails.length ? personaEmails.map(msg => <div style={{ 'font-size': '10px' }} key={msg.id}>
                 <a href={`https://www.1secmail.com/mailbox/?action=readMessage&id=${msg.id}&login=${getMailNickname(persona.name)}&domain=1secmail.org`} target="_blank">{msg.date}</a>
+                | <a target="_blank" href={msg.firstHref}>first href</a>
                 {[msg.subject.substr(100), msg.from].join(' | ')}</div>) : <div>No messages</div>
             }
           </div>
@@ -162,8 +171,8 @@ export default function Home() {
             {
               numbers.map((key, index) => {
                 const size = [0, 3, 6].includes(index) ? 5 : [1, 4, 7].includes(index) ? 10 : 14
-                return <span>
-                  <input type="text" className="number" size={size} readOnly value={key} onClick={handleInputClick} key={key} style={{paddingLeft: '1em'}} />
+                return <span key={key}>
+                  <input type="text" className="number" size={size} readOnly value={key} onClick={handleInputClick} style={{paddingLeft: '1em'}} />
                   {[2, 5, 8].includes(index) && <br />}
                 </span>
               })
@@ -190,7 +199,7 @@ export default function Home() {
       </main>
 
       <footer className={styles.footer}>
-        <iframe src="https://ghbtns.com/github-btn.html?user=jirihofman&repo=random8&type=star&count=true&size=large&v=2" frameborder="0" scrolling="0" width="170" height="30" title="GitHub"></iframe>
+        <iframe src="https://ghbtns.com/github-btn.html?user=jirihofman&repo=random8&type=star&count=true&size=large&v=2" frameBorder="0" scrolling="0" width="170" height="30" title="GitHub"></iframe>
         <iframe src="https://github.com/sponsors/jirihofman/button" title="Sponsor jirihofman" height="35" width="116" style={{border: 0}}></iframe>
       </footer>
     </div>
