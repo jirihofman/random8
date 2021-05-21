@@ -70,18 +70,22 @@ export default function Home() {
   const handleEmailRefreshClick = async event => {
     const newNick = getMailNickname(persona.name)
     const res = await fetch(`https://www.1secmail.com/api/v1/?action=getMessages&login=${newNick}&domain=1secmail.org`)
-    const json = await res.json()
+    const emails = await res.json()
 
     let i = 0;
-    for (const email of json) {
+    for (const email of emails) {
       const res = await fetch(`https://www.1secmail.com/api/v1/?action=readMessage&login=${newNick}&domain=1secmail.org&id=${email.id}`)
       const emailDetails = await res.json();
+      // Should be enough for messages like "Your confirmation code is 355245"
+      emails[i].shortText = emailDetails.body.substring(0, 50);
+
+      // Try to get the first link href
       const href = emailDetails.body.match(/.*href="([^"]+)".*/)
-      if (href && href[1]) json[i].firstHref = href[1];
+      if (href && href[1]) emails[i].firstHref = href[1];
       i++;
     }
-    if (json.length) {
-      setPersonaEmails(json)
+    if (emails.length) {
+      setPersonaEmails(emails)
     }
   }
 
@@ -147,7 +151,8 @@ export default function Home() {
             {
               personaEmails.length ? personaEmails.map(msg => <div style={{ 'font-size': '10px' }} key={msg.id}>
                 <a href={`https://www.1secmail.com/mailbox/?action=readMessage&id=${msg.id}&login=${getMailNickname(persona.name)}&domain=1secmail.org`} target="_blank">{msg.date}</a>
-                | <a target="_blank" href={msg.firstHref}>first href</a>
+                | {msg.firstHref ? <a target="_blank" href={msg.firstHref}>first href</a> : null}
+                | <b>{msg.shortText}</b>
                 {[msg.subject.substr(100), msg.from].join(' | ')}</div>) : <div>No messages</div>
             }
           </div>
