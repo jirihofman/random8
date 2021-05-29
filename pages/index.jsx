@@ -150,8 +150,8 @@ export default function Home() {
             <hr />
             {
               personaEmails.length ? personaEmails.map(msg => <div style={{ 'font-size': '10px' }} key={msg.id}>
-                <a href={`https://www.1secmail.com/mailbox/?action=readMessage&id=${msg.id}&login=${getMailNickname(persona.name)}&domain=1secmail.org`} target="_blank">{msg.date}</a>
-                | {msg.firstHref ? <a target="_blank" href={msg.firstHref}>first href</a> : null}
+                <a href={`https://www.1secmail.com/mailbox/?action=readMessage&id=${msg.id}&login=${getMailNickname(persona.name)}&domain=1secmail.org`} target="_blank" rel="noopener noreferrer">{msg.date}</a>
+                | {msg.firstHref ? <a target="_blank" rel="noopener noreferrer" href={msg.firstHref}>first href</a> : null}
                 | <b>{msg.shortText}</b>
                 {[msg.subject.substr(100), msg.from].join(' | ')}</div>) : <div>No messages</div>
             }
