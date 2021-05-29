@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "balajs": "^1.0.10",
-    "next": "10.0.7",
+    "next": "^10.2.3",
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "toastr": "^2.1.4",
