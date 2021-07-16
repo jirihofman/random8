@@ -10,6 +10,6 @@ context('Sanity checks', () => {
 		})
 	})
 	it('The button works', () => {
-		cy.get('button > span').contains('Random8').should('be.visible').click();
+		cy.get('button > h2').contains('Random8').should('be.visible').click();
 	})
 })

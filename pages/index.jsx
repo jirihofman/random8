@@ -143,11 +143,11 @@ export default function Home() {
             </div>
             <div>
               <label>UUID</label>
-              <input type="text" className="persona" size="30" readOnly value={persona.uuid} onClick={handleInputClick} />
+              <input type="text" className="persona" size="28" readOnly value={persona.uuid} onClick={handleInputClick} />
             </div>
             <div>
               <label>Email</label>
-              <input type="text" className="persona" size="30" readOnly value={persona.email} onClick={handleInputClick} />
+              <input type="text" className="persona" size="28" readOnly value={persona.email} onClick={handleInputClick} />
             </div>
             <div>
               <label>Pwd</label>
