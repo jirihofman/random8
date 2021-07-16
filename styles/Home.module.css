@@ -122,7 +122,7 @@
 
 button#random8 {
   min-width: 350px;
-  padding: 20px;
+  padding: 0px 10px 5px 10px;
   border: 2px dotted gray;
   border-radius: 10px;
 }

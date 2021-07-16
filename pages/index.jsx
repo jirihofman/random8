@@ -15,10 +15,15 @@ export default function Home() {
     return Array.from({ length }, getRandomEmail)
   }
   const genPersona = (personaName) => {
-    return { name: personaName, password: getRandomKey(12), uuid: uuid.v4(), email: getRandomEmail({ disposable: true, name: personaName }) }
+    return { name: personaName, password: getHumanPwd(12), uuid: uuid.v4(), email: getRandomEmail({ disposable: true, name: personaName }) }
   }
   const getPasswords = () => {
-    return [getRandomKey(8), getRandomKey(12), getRandomKey(16), getRandomKey(32)]
+    return [
+      getHumanPwd(8),
+      getRandomKey(12),
+      getRandomKey(16, true, true, true, '._;', false),
+      getRandomKey(32)
+    ]
   }
   const getKeys = () => {
     return [getRandomKey(16, false, true, false, false), getRandomKey(16), uuid.v4()]
@@ -108,7 +113,8 @@ export default function Home() {
       <main className={styles.main}>
 
         <button onClick={handleGenerateClick} id={styles.random8} title="Click to generate new data for each seaction.">
-          <span>Random8 &rarr; click</span>
+          <h2>Random8</h2>
+          <i>click to generate random data</i>
         </button>
 
         <div className={styles.grid}>
@@ -137,11 +143,11 @@ export default function Home() {
             </div>
             <div>
               <label>UUID</label>
-              <input type="text" className="persona" size="32" readOnly value={persona.uuid} onClick={handleInputClick} />
+              <input type="text" className="persona" size="30" readOnly value={persona.uuid} onClick={handleInputClick} />
             </div>
             <div>
               <label>Email</label>
-              <input type="text" className="persona" size="32" readOnly value={persona.email} onClick={handleInputClick} />
+              <input type="text" className="persona" size="30" readOnly value={persona.email} onClick={handleInputClick} />
             </div>
             <div>
               <label>Pwd</label>
@@ -177,7 +183,7 @@ export default function Home() {
               numbers.map((key, index) => {
                 const size = [0, 3, 6].includes(index) ? 5 : [1, 4, 7].includes(index) ? 10 : 14
                 return <span key={key}>
-                  <input type="text" className="number" size={size} readOnly value={key} onClick={handleInputClick} style={{paddingLeft: '1em'}} />
+                  <input type="text" className="number" size={size-1} readOnly value={key} onClick={handleInputClick} style={{paddingLeft: '0.5em'}} />
                   {[2, 5, 8].includes(index) && <br />}
                 </span>
               })
@@ -236,7 +242,10 @@ function getRandomKey(
   if (useLowerCase) chars += lowerCase;
   if (useUpperCase) chars += upperCase;
   if (useNumbers) chars += numbers;
-  if (useSpecial) chars += special;
+  if (useSpecial) {
+    if (typeof useSpecial === 'boolean') chars += special;
+    if (typeof useSpecial === 'string') chars += useSpecial;
+  }
   if (useHex) chars += hex;
 
   for (let i = 0; i < length; i++) {
@@ -276,4 +285,17 @@ function getRandomName() {
 
 function getMailNickname(name = '') {
   return name.replace(/ /g, '.').toLowerCase();
+}
+
+function getHumanPwd(length) {
+  if (length < 8) throw 'Max pwd length must be 8';
+  let pwd = getRandomKey(2, true, false, false, false, false)
+    + getRandomKey(2, false, true, false, false, false)
+    + getRandomKey(2, false, false, false, '._', false)
+    + getRandomKey(2, false, false, true, false, false)
+  if (length > 8) {
+    pwd += getRandomKey(length - 8, true, true, true, false, false)
+  }
+
+  return pwd;
 }
