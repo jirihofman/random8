@@ -122,14 +122,25 @@
 
 button#random8 {
   min-width: 350px;
+  width: 730px; /* browser */
   padding: 0px 10px 5px 10px;
   border: 2px dotted gray;
   border-radius: 10px;
 }
 
+/* iPhone */
 @media (max-width: 600px) {
   .grid {
     width: 100%;
     flex-direction: column;
+  }
+}
+/* iPhone flipped */
+@media (max-width: 720px) {
+  button#random8 {
+    width: 350px;
+    padding: 0px 10px 5px 10px;
+    border: 2px dotted gray;
+    border-radius: 10px;
   }
 }

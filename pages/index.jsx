@@ -15,7 +15,7 @@ export default function Home() {
     return Array.from({ length }, getRandomEmail)
   }
   const genPersona = (personaName) => {
-    return { name: personaName, password: getHumanPwd(12), uuid: uuid.v4(), email: getRandomEmail({ disposable: true, name: personaName }) }
+    return { name: personaName, password: getHumanPwd(12), uuid: uuid.v4(), email: getRandomEmail({ disposable: true, name: personaName }), refreshingEmail: false }
   }
   const getPasswords = () => {
     return [
@@ -42,12 +42,13 @@ export default function Home() {
     ]
   }
 
+  const personaName = getRandomName()
+  
   const [names, setNames] = useState(getNames(3))
   const [emails, setEmails] = useState(getEmails(3))
   const [keys, setKeys] = useState(getKeys())
   const [passwords, setPasswords] = useState(getPasswords())
   const [numbers, setNumbers] = useState(getNumbers())
-  const personaName = getRandomName()
   const [persona, setPersona] = useState(genPersona(personaName))
   const [personaEmails, setPersonaEmails] = useState([])
 
@@ -73,6 +74,7 @@ export default function Home() {
   }
 
   const handleEmailRefreshClick = async event => {
+    setPersona({ ... persona, refreshingEmail: true })
     const newNick = getMailNickname(persona.name)
     const res = await fetch(`https://www.1secmail.com/api/v1/?action=getMessages&login=${newNick}&domain=1secmail.org`)
     const emails = await res.json()
@@ -92,6 +94,7 @@ export default function Home() {
     if (emails.length) {
       setPersonaEmails(emails)
     }
+    setPersona({ ...persona, refreshingEmail: false })
   }
 
   const handleEmailCopyAllClick = async () => {
@@ -127,7 +130,7 @@ export default function Home() {
           </div>
 
           <div className={styles.card}>
-            <h3>Emails <button onClick={handleEmailCopyAllClick} title="comma separated">Copy all emails</button></h3>
+            <h3>Emails <button onClick={handleEmailCopyAllClick}>Copy all emails</button> {tooltip('Copied emails are comma separated')}</h3>
             <input type="text" id="emailsAll" value="" style={{ display: 'block', position: 'absolute', zIndex: '-1' }} readOnly />
             {
               emails.map(email => <input type="text" className="email" size="35" readOnly value={email} onClick={handleInputClick} key={email} />)
@@ -155,6 +158,7 @@ export default function Home() {
             </div>
             <hr />
             {
+              persona.refreshingEmail ? <i>Loading emails ...</i> :
               personaEmails.length ? personaEmails.map(msg => <div style={{ 'font-size': '10px' }} key={msg.id}>
                 <a href={`https://www.1secmail.com/mailbox/?action=readMessage&id=${msg.id}&login=${getMailNickname(persona.name)}&domain=1secmail.org`} target="_blank" rel="noopener noreferrer">{msg.date}</a>
                 | {msg.firstHref ? <a target="_blank" rel="noopener noreferrer" href={msg.firstHref}>first href</a> : null}
@@ -178,7 +182,7 @@ export default function Home() {
           </div>
 
           <div className={styles.card}>
-            <h3>Numbers</h3>
+            <h3>Numbers {tooltip('Number sizes: 4, 8, 12')}</h3>
             {
               numbers.map((key, index) => {
                 const size = [0, 3, 6].includes(index) ? 5 : [1, 4, 7].includes(index) ? 10 : 14
@@ -298,4 +302,8 @@ function getHumanPwd(length) {
   }
 
   return pwd;
+}
+
+function tooltip(text) {
+  return <div className="tooltip">❓<div className="tooltiptext">{text}</div></div>;
 }
