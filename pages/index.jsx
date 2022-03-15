@@ -157,14 +157,17 @@ export default function Home() {
               <input type="text" className="persona" size="20" readOnly value={persona.password} onClick={handleInputClick} />
             </div>
             <hr />
-            {
-              persona.refreshingEmail ? <i>Loading emails ...</i> :
-              personaEmails.length ? personaEmails.map(msg => <div style={{ 'font-size': '10px' }} key={msg.id}>
-                <a href={`https://www.1secmail.com/mailbox/?action=readMessage&id=${msg.id}&login=${getMailNickname(persona.name)}&domain=1secmail.org`} target="_blank" rel="noopener noreferrer">{msg.date}</a>
-                | {msg.firstHref ? <a target="_blank" rel="noopener noreferrer" href={msg.firstHref}>first href</a> : null}
-                | <b>{msg.shortText}</b>
-                {[msg.subject.substr(100), msg.from].join(' | ')}</div>) : <div>No messages</div>
-            }
+            <div id='persona-messages'>
+              {
+                persona.refreshingEmail ? <i>Loading emails ...</i> :
+                personaEmails.length ? personaEmails.map(msg => <div style={{ 'font-size': '10px' }} key={msg.id}>
+                  <a href={`https://www.1secmail.com/mailbox/?action=readMessage&id=${msg.id}&login=${getMailNickname(persona.name)}&domain=1secmail.org`} target="_blank" rel="noopener noreferrer">{msg.date}</a>
+                  | {msg.firstHref ? <a target="_blank" rel="noopener noreferrer" href={msg.firstHref} title={msg.firstHref}>first href</a> : null}
+                  | <b>{msg.shortText}</b>
+                  {[msg.subject.substr(100), msg.from].join(' | ')}</div>) : <div>No messages</div>
+              }
+              <span id='persona-tooltip'>{tooltip('The first link opens 1secmail.org mailbox. The second one directly opens the first link that is found in the email message. Useful for confirming email addresses for example.')}</span>
+            </div>
           </div>
 
           <div className={styles.card}>
