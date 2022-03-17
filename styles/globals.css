@@ -56,7 +56,6 @@ body {
   
 #persona-tooltip {
   position: relative;
-  min-width: 220px;
 }  
 
 #persona-messages .tooltip:hover .tooltiptext {
