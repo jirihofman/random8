@@ -125,7 +125,7 @@ export default function Home() {
           <div className={styles.card}>
             <h3>Names</h3>
             {
-              names.map(name => <input type="text" className="name" size="35" readOnly value={name} onClick={handleInputClick} key={name} />)
+              names.map(name => <input type="text" className="name" style={{ width: '100%' }} readOnly value={name} onClick={handleInputClick} key={name} />)
             }
           </div>
 
@@ -133,7 +133,7 @@ export default function Home() {
             <h3>Emails <button onClick={handleEmailCopyAllClick}>Copy all emails</button> {tooltip('Copied emails are comma separated')}</h3>
             <input type="text" id="emailsAll" value="" style={{ display: 'block', position: 'absolute', zIndex: '-1' }} readOnly />
             {
-              emails.map(email => <input type="text" className="email" size="35" readOnly value={email} onClick={handleInputClick} key={email} />)
+              emails.map(email => <input type="text" className="email" style={{ width: '100%' }} readOnly value={email} onClick={handleInputClick} key={email} />)
             }
           </div>
 
@@ -146,15 +146,15 @@ export default function Home() {
             </div>
             <div>
               <label>UUID</label>
-              <input type="text" className="persona" size="28" readOnly value={persona.uuid} onClick={handleInputClick} />
+              <input type="text" className="persona" style={{ width: '80%' }} readOnly value={persona.uuid} onClick={handleInputClick} />
             </div>
             <div>
               <label>Email</label>
-              <input type="text" className="persona" size="28" readOnly value={persona.email} onClick={handleInputClick} />
+              <input type="text" className="persona" style={{ width: '80%' }} readOnly value={persona.email} onClick={handleInputClick} />
             </div>
             <div>
               <label>Pwd</label>
-              <input type="text" className="persona" size="20" readOnly value={persona.password} onClick={handleInputClick} />
+              <input type="text" className="persona" style={{ width: '80%' }} readOnly value={persona.password} onClick={handleInputClick} />
             </div>
             <hr />
             <div id='persona-messages'>
@@ -173,14 +173,14 @@ export default function Home() {
           <div className={styles.card}>
             <h3>Passwords</h3>
             {
-              passwords.map(password => <input type="text" className="password" size="35" readOnly value={password} onClick={handleInputClick} key={password} />)
+              passwords.map(password => <input type="text" className="password" style={{ width: '100%' }} readOnly value={password} onClick={handleInputClick} key={password} />)
             }
           </div>
 
           <div className={styles.card}>
             <h3>Keys</h3>
             {
-              keys.map(key => <input type="text" className="password" size="35" readOnly value={key} onClick={handleInputClick} key={key} />)
+              keys.map(key => <input type="text" className="password" style={{ width: '100%' }} readOnly value={key} onClick={handleInputClick} key={key} />)
             }
           </div>
 
@@ -188,9 +188,9 @@ export default function Home() {
             <h3>Numbers {tooltip('Number sizes: 4, 8, 12')}</h3>
             {
               numbers.map((key, index) => {
-                const size = [0, 3, 6].includes(index) ? 5 : [1, 4, 7].includes(index) ? 10 : 14
+                const width = [0, 3, 6].includes(index) ? 20 : [1, 4, 7].includes(index) ? 30 : 45
                 return <span key={key}>
-                  <input type="text" className="number" size={size-1} readOnly value={key} onClick={handleInputClick} style={{paddingLeft: '0.5em'}} />
+                  <input type="text" className="number" readOnly value={key} onClick={handleInputClick} style={{ paddingLeft: '0.5em', width: `${width}%` }} />
                   {[2, 5, 8].includes(index) && <br />}
                 </span>
               })
