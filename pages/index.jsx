@@ -224,10 +224,6 @@ export default function Home() {
   )
 }
 
-export async function getServerSideProps() {
-  return { props: {} }
-}
-
 function getRandomKey(
   length = 12,
   useLowerCase = true,
