@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { success } from 'toastr';
 import * as uuid from 'uuid';
 import Head from 'next/head'

@@ -14,7 +14,6 @@
     "start": "next start -p 2999"
   },
   "dependencies": {
-    "balajs": "^1.0.10",
     "next": "^12.1.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
