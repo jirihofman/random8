@@ -260,7 +260,7 @@ function getRandomKey(
 	if (useHex) chars += hex;
 
 	for (let i = 0; i < length; i++) {
-		key += chars[Math.floor(Math.random() * chars.length)];
+		key += chars[Math.floor(getSecureRandomNumber() * chars.length)];
 	}
 
 	return key;
@@ -268,7 +268,7 @@ function getRandomKey(
 
 function getRandomEmail(options) {
 	const emailDomains = ['gmail.com', 'googlemail.com', 'hotmail.com']
-	let domain = emailDomains[Math.floor(Math.random() * emailDomains.length)];
+	let domain = emailDomains[Math.floor(getSecureRandomNumber() * emailDomains.length)];
 	let nick = getRandomKey(12, true, false, true, false, false);
 
 	if (options) {
@@ -287,9 +287,9 @@ function getRandomEmail(options) {
 }
 
 function getRandomName() {
-	const firstName = firstNames[Math.floor(Math.random() * firstNames.length)];
-	const lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
-	const middleName = Math.random() > 0.7 ? firstNames[Math.floor(Math.random() * firstNames.length)] : undefined;
+	const firstName = firstNames[Math.floor(getSecureRandomNumber() * firstNames.length)];
+	const lastName = lastNames[Math.floor(getSecureRandomNumber() * lastNames.length)];
+	const middleName = getSecureRandomNumber() > 0.7 ? firstNames[Math.floor(getSecureRandomNumber() * firstNames.length)] : undefined;
 
 	return [firstName, middleName, lastName].filter(Boolean).join(' ');
 }
@@ -313,11 +313,16 @@ function getHumanPwd(length) {
 
 function getRandomDate() {
 	const date = new Date();
-	date.setDate(date.getDate() + Math.floor(Math.random() * 365));
+	date.setDate(date.getDate() + Math.floor(getSecureRandomNumber() * 365));
 	return date;
 }
 
 
 function tooltip(text) {
 	return <div className="tooltip">❓<div className="tooltiptext">{text}</div></div>;
+}
+
+// Similar to Math.random() but more secure. Returns number between 0 and 1.
+function getSecureRandomNumber() {
+	return window.crypto.getRandomValues(new Uint32Array(1))[0] / (Math.pow(2, 32) - 1);
 }
