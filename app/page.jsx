@@ -6,6 +6,7 @@ import styles from '../styles/Home.module.css'
 import firstNames from '../first-names.json';
 import lastNames from '../names.json';
 import Notes from '../components/notes';
+import { randomInt } from 'crypto'
 
 export default function Home() {
 
@@ -324,5 +325,8 @@ function tooltip(text) {
 
 // Similar to Math.random() but more secure. Returns number between 0 and 1.
 function getSecureRandomNumber() {
-	return window.crypto.getRandomValues(new Uint32Array(1))[0] / (Math.pow(2, 32) - 1);
+	if (typeof window !== "undefined")
+		return window.crypto.getRandomValues(new Uint32Array(1))[0] / (Math.pow(2, 32) - 1);
+	else
+		return randomInt(1, 281474976710655) / 281474976710655;
 }
