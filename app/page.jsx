@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react'
 import { success } from 'toastr';
 import * as uuid from 'uuid';
+import random from 'lodash/random';
 import styles from '../styles/Home.module.css'
 import firstNames from '../first-names.json';
 import lastNames from '../names.json';
@@ -325,7 +326,7 @@ function getHumanPwd(length) {
 
 function getRandomDate() {
 	const date = new Date();
-	date.setDate(date.getDate() + Math.floor(getSecureRandomNumber() * 365));
+	date.setDate(date.getDate() + Math.floor(random(-365, 365)));
 	return date;
 }
 
@@ -336,10 +337,5 @@ function tooltip(text) {
 
 // Similar to Math.random() but more secure. Returns number between 0 and 1.
 function getSecureRandomNumber() {
-	if (typeof window !== "undefined")
-		return window.crypto.getRandomValues(new Uint32Array(1))[0] / (Math.pow(2, 32) - 1);
-	else
-		// We don't have access to window.crypto.getRandomValues() in Node.js
-		// And we don't need it there anyway
-		return 1;
+	return random(0, 1, true);
 }
