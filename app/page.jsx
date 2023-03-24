@@ -1,12 +1,11 @@
 'use client';
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { success } from 'toastr';
 import * as uuid from 'uuid';
 import styles from '../styles/Home.module.css'
 import firstNames from '../first-names.json';
 import lastNames from '../names.json';
 import Notes from '../components/notes';
-import { randomInt } from 'crypto'
 
 export default function Home() {
 
@@ -57,16 +56,28 @@ export default function Home() {
 		]
 	}
 
-	const personaName = getRandomName()
-
-	const [names, setNames] = useState(getNames(3))
-	const [emails, setEmails] = useState(getEmails(3))
-	const [keys, setKeys] = useState(getKeys())
-	const [passwords, setPasswords] = useState(getPasswords())
-	const [numbers, setNumbers] = useState(getNumbers())
-	const [persona, setPersona] = useState(genPersona(personaName))
+	const emptyArray = ['', '', ''];
+	const [names, setNames] = useState(emptyArray)
+	const [emails, setEmails] = useState(emptyArray)
+	const [keys, setKeys] = useState(emptyArray)
+	const [passwords, setPasswords] = useState([...emptyArray, ''])
+	const [numbers, setNumbers] = useState([...emptyArray, ...emptyArray, ...emptyArray]);
+	const [persona, setPersona] = useState([])
 	const [personaEmails, setPersonaEmails] = useState([])
-	const [dates, setDates] = useState(getDates())
+	const [dates, setDates] = useState([...emptyArray, ...emptyArray, '', ''])
+
+	useEffect(() => {
+		const personaName = getRandomName()
+
+		setNames(getNames(3))
+		setEmails(getEmails(3))
+		setKeys(getKeys())
+		setPasswords(getPasswords())
+		setNumbers(getNumbers())
+		setPersona(genPersona(personaName))
+		setPersonaEmails([])
+		setDates(getDates())
+	}, []);
 
 	const handleGenerateClick = async event => {
 		event.preventDefault()
@@ -137,7 +148,7 @@ export default function Home() {
 					<div className={styles.card}>
 						<h3>Names</h3>
 						{
-							names.map(name => <input type="text" className="name" style={{ width: '100%' }} readOnly value={name} onClick={handleInputClick} key={name} />)
+							names.map((name, i) => <input type="text" className="name" style={{ width: '100%' }} readOnly value={name} onClick={handleInputClick} key={i} />)
 						}
 					</div>
 
@@ -145,7 +156,7 @@ export default function Home() {
 						<h3>Emails <button onClick={handleEmailCopyAllClick}>Copy all emails</button> {tooltip('Copied emails are comma separated')}</h3>
 						<input type="text" id="emailsAll" value="" style={{ display: 'block', position: 'absolute', zIndex: '-1' }} readOnly />
 						{
-							emails.map(email => <input type="text" className="email" style={{ width: '100%' }} readOnly value={email} onClick={handleInputClick} key={email} />)
+							emails.map((email, i) => <input type="text" className="email" style={{ width: '100%' }} readOnly value={email} onClick={handleInputClick} key={i} />)
 						}
 					</div>
 
@@ -185,25 +196,25 @@ export default function Home() {
 					<div className={styles.card}>
 						<h3>Passwords</h3>
 						{
-							passwords.map(password => <input type="text" className="password" style={{ width: '100%' }} readOnly value={password} onClick={handleInputClick} key={password} />)
+							passwords.map((password, i) => <input type="text" className="password" style={{ width: '100%' }} readOnly value={password} onClick={handleInputClick} key={i} />)
 						}
 					</div>
 
 					<div className={styles.card}>
 						<h3>Keys</h3>
 						{
-							keys.map(key => <input type="text" className="password" style={{ width: '100%' }} readOnly value={key} onClick={handleInputClick} key={key} />)
+							keys.map((key, i) => <input type="text" className="password" style={{ width: '100%' }} readOnly value={key} onClick={handleInputClick} key={i} />)
 						}
 					</div>
 
 					<div className={styles.card}>
 						<h3>Numbers {tooltip('Number sizes: 4, 8, 12')}</h3>
 						{
-							numbers.map((key, index) => {
-								const width = [0, 3, 6].includes(index) ? 20 : [1, 4, 7].includes(index) ? 30 : 45
-								return <span key={key}>
+							numbers.map((key, i) => {
+								const width = [0, 3, 6].includes(i) ? 20 : [1, 4, 7].includes(i) ? 30 : 45
+								return <span key={i}>
 									<input type="text" className="number" readOnly value={key} onClick={handleInputClick} style={{ paddingLeft: '0.5em', width: `${width}%` }} />
-									{[2, 5, 8].includes(index) && <br />}
+									{[2, 5, 8].includes(i) && <br />}
 								</span>
 							})
 						}
@@ -212,8 +223,8 @@ export default function Home() {
 					<div className={styles.card}>
 						<h3>Date & Time</h3>
 						{
-							dates.map((key, index) => {
-								return <span key={key}>
+							dates.map((key, i) => {
+								return <span key={i}>
 									<input type="text" className="date" readOnly value={key} onClick={handleInputClick} style={{ paddingLeft: '0.5em', width: '50%' }} />
 									{/* {[2, 5, 8].includes(index) && <br />} */}
 								</span>
@@ -328,5 +339,7 @@ function getSecureRandomNumber() {
 	if (typeof window !== "undefined")
 		return window.crypto.getRandomValues(new Uint32Array(1))[0] / (Math.pow(2, 32) - 1);
 	else
-		return randomInt(1, 281474976710655) / 281474976710655;
+		// We don't have access to window.crypto.getRandomValues() in Node.js
+		// And we don't need it there anyway
+		return 1;
 }
