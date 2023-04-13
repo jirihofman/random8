@@ -186,7 +186,7 @@ export default function Home() {
 								persona.refreshingEmail ? <i>Loading emails ...</i> :
 									personaEmails.length ? personaEmails.map(msg => <div style={{ 'font-size': '10px' }} key={msg.id}>
 										<a href={`https://www.1secmail.com/mailbox/?action=readMessage&id=${msg.id}&login=${getMailNickname(persona.name)}&domain=1secmail.org`} target="_blank" rel="noopener noreferrer">{msg.date}</a>
-										| {msg.firstHref ? <a target="_blank" rel="noopener noreferrer" href={msg.firstHref} title={msg.firstHref}>first href</a> : null}
+										| {msg.firstHref ? <a target="_blank" rel="noopener noreferrer" href={msg.firstHref} title={msg.firstHref}>first link</a> : null}
 										| <b>{msg.shortText}</b>
 										{[msg.subject.substr(100), msg.from].join(' | ')}</div>) : <div>No messages</div>
 							}
