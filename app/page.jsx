@@ -1,6 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react'
-import { success } from 'toastr';
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import * as uuid from 'uuid';
 import random from 'lodash/random';
 import styles from '../styles/Home.module.css'
@@ -99,7 +99,7 @@ export default function Home() {
 	const handleInputClick = async event => {
 		event.target.select()
 		document.execCommand('copy');
-		success(event.target.value, 'Copied!')
+		Notify.success(['<b>Copied!</b>', event.target.value].join(' '), { plainText: false });
 	}
 
 	const handleEmailRefreshClick = async event => {
@@ -128,10 +128,10 @@ export default function Home() {
 
 	const handleEmailCopyAllClick = async () => {
 		const hidden = document.getElementById('emailsAll');
-		hidden.value = emails.join();
+		hidden.value = emails.join(' ');
 		hidden.select();
 		document.execCommand('copy');
-		success(hidden.value, 'Copied!')
+		Notify.success(['<b>Copied!</b>', hidden.value].join(' '), { plainText: false });
 		hidden.value = ''
 	}
 

@@ -1,6 +1,5 @@
-import '../styles/globals.css'
-import '../node_modules/toastr/build/toastr.css'
-import pjson from '../package.json'
+import '../styles/globals.css';
+import pjson from '../package.json';
 
 export default function RootLayout({
 	// Layouts must accept a children prop.
