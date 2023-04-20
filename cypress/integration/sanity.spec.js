@@ -5,7 +5,7 @@ context('Sanity checks', () => {
 		cy.visit('/')
 	})
 	it('Sections exist', () => {
-		['Names', 'Emails', 'Persona', 'Passwords', 'Keys', 'Numbers'].forEach(header => {
+		['Names', 'Emails', 'Persona', 'Passwords', 'Keys', 'Numbers', 'Date'].forEach(header => {
 			cy.get('h3').contains(header).should('be.visible');
 		})
 	})
