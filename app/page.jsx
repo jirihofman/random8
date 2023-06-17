@@ -106,6 +106,7 @@ export default function Home() {
 		setPersona(newPersona)
 		setPersonaEmails([])
 		setDates(getDates())
+		setPhoneNumbers(getPhoneNumbers())
 	}
 
 	const handleInputClick = async event => {
