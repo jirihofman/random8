@@ -17,7 +17,7 @@ export default function Home() {
 		return Array.from({ length }, getRandomEmail)
 	}
 	const genPersona = (personaName) => {
-		return { name: personaName, password: getHumanPwd(12), uuid: uuid.v4(), email: getRandomEmail({ disposable: true, name: personaName }), refreshingEmail: false }
+		return { name: personaName, password: getHumanPwd(12), uuid: uuid.v4(), email: getRandomEmail({ disposable: true, name: personaName }), refreshingEmail: false, phoneNumber: getRandomPhoneNumber([ 'cz', 'us', 'uk' ][random(0, 2)])}
 	}
 	const getPasswords = () => {
 		return [
@@ -57,6 +57,16 @@ export default function Home() {
 		]
 	}
 
+	const getPhoneNumbers = () => {
+		return [
+			getRandomPhoneNumber('cz'),
+			getRandomPhoneNumber('us'),
+			getRandomPhoneNumber('uk'),
+			getRandomPhoneNumber('in'),
+		]
+	}
+	const countries = ['🇨🇿', '🇺🇸', '🇬🇧', '🇮🇳'];
+
 	const emptyArray = ['', '', ''];
 	const [names, setNames] = useState(emptyArray)
 	const [emails, setEmails] = useState(emptyArray)
@@ -66,6 +76,7 @@ export default function Home() {
 	const [persona, setPersona] = useState([])
 	const [personaEmails, setPersonaEmails] = useState([])
 	const [dates, setDates] = useState([...emptyArray, ...emptyArray, '', ''])
+	const [phoneNumbers, setPhoneNumbers] = useState(emptyArray)
 
 	useEffect(() => {
 		const personaName = getRandomName()
@@ -78,6 +89,7 @@ export default function Home() {
 		setPersona(genPersona(personaName))
 		setPersonaEmails([])
 		setDates(getDates())
+		setPhoneNumbers(getPhoneNumbers())
 	}, []);
 
 	const handleGenerateClick = async event => {
@@ -177,6 +189,10 @@ export default function Home() {
 							<input type="text" className="persona" style={{ width: '80%' }} readOnly value={persona.email} onClick={handleInputClick} />
 						</div>
 						<div>
+							<label>Phone</label>
+							<input type="text" className="phone-number" style={{ width: '80%' }} readOnly value={persona.phoneNumber} onClick={handleInputClick} />
+						</div>
+						<div>
 							<label>Pwd</label>
 							<input type="text" className="persona" style={{ width: '80%' }} readOnly value={persona.password} onClick={handleInputClick} />
 						</div>
@@ -228,6 +244,19 @@ export default function Home() {
 								return <span key={i}>
 									<input type="text" className="date" readOnly value={key} onClick={handleInputClick} style={{ paddingLeft: '0.5em', width: '50%' }} />
 									{/* {[2, 5, 8].includes(index) && <br />} */}
+								</span>
+							})
+						}
+					</div>
+
+					<div className={styles.card}>
+						<h3>Phone numbers</h3>
+						{
+							phoneNumbers.map((key, i) => {
+								return <span key={i}>
+									{countries[i]}
+									<input type="text" className="phone-number" readOnly value={key} onClick={handleInputClick} style={{ marginLeft: '0.5em', paddingLeft: '0.5em', width: '90%' }} />
+									<br />
 								</span>
 							})
 						}
@@ -338,4 +367,20 @@ function tooltip(text) {
 // Similar to Math.random() but more secure. Returns number between 0 and 1.
 function getSecureRandomNumber() {
 	return random(0, 1, true);
+}
+
+function getRandomPhoneNumber(countryCode) {
+	if (countryCode === 'cz') {
+		return '+420 ' + Math.floor(random(100000000, 999999999));
+	}
+	if (countryCode === 'us') {
+		return '+1 ' + Math.floor(random(100, 999)) + '-' + Math.floor(random(100, 999)) + '-' + Math.floor(random(1000, 9999));
+	}
+	if (countryCode === 'uk') {
+		return '+44' + Math.floor(random(1000000000, 9999999999));
+	}
+	if (countryCode === 'in') {
+		return '+91 ' + Math.floor(random(10000, 99999)) + ' ' + Math.floor(random(10000, 99999));
+	}
+	
 }
