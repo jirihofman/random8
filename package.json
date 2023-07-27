@@ -23,6 +23,6 @@
   },
   "devDependencies": {
     "cypress": "^9.2.1",
-    "eslint-config-next": "^13.2.4"
+    "eslint-config-next": "^13.4.12"
   }
 }
