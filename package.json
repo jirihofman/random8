@@ -1,6 +1,6 @@
 {
   "name": "random8",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "private": false,
   "author": {
     "email": "jiri.hofman@gmail.com",
@@ -9,7 +9,7 @@
   },
   "description": "Random generator of names, emails, codes, passwords and complete personas. All in one place and as simple as it could possibly be.",
   "scripts": {
-    "dev": "next dev -p 4043 --turbo",
+    "dev": "next dev --turbo",
     "build": "next build",
     "start": "next start -p 2999"
   },
