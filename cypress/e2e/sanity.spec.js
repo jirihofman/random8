@@ -1,11 +1,11 @@
 /// <reference types="cypress" />
 
 context('Sanity checks', () => {
-	before(() => {
-		cy.visit('/')
+	beforeEach(() => {
+		cy.visit('/');
 	})
 	it('Sections exist', () => {
-		['Names', 'Emails', 'Persona', 'Passwords', 'Keys', 'Numbers', 'Date'].forEach(header => {
+		['Names', 'Emails', 'Persona', 'Passwords', 'Keys', 'Numbers', 'Date', 'Phone numbers'].forEach(header => {
 			cy.get('h3').contains(header).should('be.visible');
 		})
 	})
