@@ -1,6 +1,8 @@
 import '../styles/globals.css';
 import pjson from '../package.json';
 
+export const runtime = 'edge';
+
 export default function RootLayout({
 	// Layouts must accept a children prop.
 	// This will be populated with nested layouts or pages
