@@ -10,6 +10,7 @@ export default function Notes() {
 				<div>Number of first names: {firstNames.length}</div>
 				<div>Number of last names: {lastNames.length}</div>
 			</li>
+			<li>UUID is <a href="https://en.wikipedia.org/wiki/Universally_unique_identifier#Version_4_(random)">version 4</a> (random).</li>
 		</ul>
 		<h3>Credits</h3>
 		<ul>

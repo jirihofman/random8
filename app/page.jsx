@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import * as uuid from 'uuid';
 import random from 'lodash/random';
+import nodePetNames from 'node-petname';
 import styles from '../styles/Home.module.css'
 import firstNames from '../first-names.json';
 import lastNames from '../names.json';
@@ -65,6 +66,12 @@ export default function Home() {
 			getRandomPhoneNumber('in'),
 		]
 	}
+	const getPetNames = () => [
+		nodePetNames(2, '-') + '-' + Math.floor(random(1000, 9999)),
+		nodePetNames(3, '-'),
+		nodePetNames(5, '_'),
+	]
+	
 	const countries = ['🇨🇿', '🇺🇸', '🇬🇧', '🇮🇳'];
 
 	const emptyArray = ['', '', ''];
@@ -77,6 +84,7 @@ export default function Home() {
 	const [personaEmails, setPersonaEmails] = useState([])
 	const [dates, setDates] = useState([...emptyArray, ...emptyArray, '', ''])
 	const [phoneNumbers, setPhoneNumbers] = useState(emptyArray)
+	const [petNames, setPetNames] = useState(emptyArray)
 
 	useEffect(() => {
 		const personaName = getRandomName()
@@ -90,6 +98,7 @@ export default function Home() {
 		setPersonaEmails([])
 		setDates(getDates())
 		setPhoneNumbers(getPhoneNumbers())
+		setPetNames(getPetNames())
 	}, []);
 
 	const handleGenerateClick = async event => {
@@ -107,6 +116,7 @@ export default function Home() {
 		setPersonaEmails([])
 		setDates(getDates())
 		setPhoneNumbers(getPhoneNumbers())
+		setPetNames(getPetNames())
 	}
 
 	const handleInputClick = async event => {
@@ -175,6 +185,51 @@ export default function Home() {
 					</div>
 
 					<div className={styles.card}>
+						<h3>Numbers {tooltip('Number sizes: 4, 8, 12')}</h3>
+						{
+							numbers.map((key, i) => {
+								const width = [0, 3, 6].includes(i) ? 20 : [1, 4, 7].includes(i) ? 30 : 45
+								return <span key={i}>
+									<input type="text" className="number" readOnly value={key} onClick={handleInputClick} style={{ paddingLeft: '0.5em', width: `${width}%` }} />
+									{[2, 5, 8].includes(i) && <br />}
+								</span>
+							})
+						}
+					</div>
+
+					<div className={styles.card}>
+						<h3>Passwords</h3>
+						{
+							passwords.map((password, i) => <input type="text" className="password" style={{ width: '100%' }} readOnly value={password} onClick={handleInputClick} key={i} />)
+						}
+					</div>
+
+					<div className={styles.card}>
+						<h3>Phone numbers</h3>
+						{
+							phoneNumbers.map((key, i) => {
+								return <span key={i}>
+									{countries[i]}
+									<input type="text" className="phone-number" readOnly value={key} onClick={handleInputClick} style={{ marginLeft: '0.5em', paddingLeft: '0.5em', width: '90%' }} />
+									<br />
+								</span>
+							})
+						}
+					</div>
+
+					<div className={styles.card}>
+						<h3>Date & Time</h3>
+						{
+							dates.map((key, i) => {
+								return <span key={i}>
+									<input type="text" className="date" readOnly value={key} onClick={handleInputClick} style={{ paddingLeft: '0.5em', width: '50%' }} />
+									{/* {[2, 5, 8].includes(index) && <br />} */}
+								</span>
+							})
+						}
+					</div>
+
+					<div className={styles.card}>
 						<h3>Persona</h3>
 						<div>
 							<label>Name</label>
@@ -212,10 +267,8 @@ export default function Home() {
 					</div>
 
 					<div className={styles.card}>
-						<h3>Passwords</h3>
-						{
-							passwords.map((password, i) => <input type="text" className="password" style={{ width: '100%' }} readOnly value={password} onClick={handleInputClick} key={i} />)
-						}
+						<h3>Pet names</h3>
+						{petNames.map((name, i) => <input type="text" className="name" style={{ width: '100%' }} readOnly value={name} onClick={handleInputClick} key={i} />)}
 					</div>
 
 					<div className={styles.card}>
@@ -225,43 +278,6 @@ export default function Home() {
 						}
 					</div>
 
-					<div className={styles.card}>
-						<h3>Numbers {tooltip('Number sizes: 4, 8, 12')}</h3>
-						{
-							numbers.map((key, i) => {
-								const width = [0, 3, 6].includes(i) ? 20 : [1, 4, 7].includes(i) ? 30 : 45
-								return <span key={i}>
-									<input type="text" className="number" readOnly value={key} onClick={handleInputClick} style={{ paddingLeft: '0.5em', width: `${width}%` }} />
-									{[2, 5, 8].includes(i) && <br />}
-								</span>
-							})
-						}
-					</div>
-
-					<div className={styles.card}>
-						<h3>Date & Time</h3>
-						{
-							dates.map((key, i) => {
-								return <span key={i}>
-									<input type="text" className="date" readOnly value={key} onClick={handleInputClick} style={{ paddingLeft: '0.5em', width: '50%' }} />
-									{/* {[2, 5, 8].includes(index) && <br />} */}
-								</span>
-							})
-						}
-					</div>
-
-					<div className={styles.card}>
-						<h3>Phone numbers</h3>
-						{
-							phoneNumbers.map((key, i) => {
-								return <span key={i}>
-									{countries[i]}
-									<input type="text" className="phone-number" readOnly value={key} onClick={handleInputClick} style={{ marginLeft: '0.5em', paddingLeft: '0.5em', width: '90%' }} />
-									<br />
-								</span>
-							})
-						}
-					</div>
 
 					<Notes/>
 				</div>
@@ -269,7 +285,6 @@ export default function Home() {
 
 			<footer className={styles.footer}>
 				<iframe src="https://ghbtns.com/github-btn.html?user=jirihofman&repo=random8&type=star&count=true&size=large&v=2" frameBorder="0" scrolling="0" width="170" height="30" title="GitHub"></iframe>
-				<iframe src="https://github.com/sponsors/jirihofman/button" title="Sponsor jirihofman" height="35" width="116" style={{ border: 0 }}></iframe>
 			</footer>
 		</div>
 	)
