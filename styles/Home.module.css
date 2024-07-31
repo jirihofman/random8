@@ -74,14 +74,14 @@
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
-  max-width: 800px;
+  max-width: 1250px;
   margin-top: 1rem;
 }
 
 .card {
-  min-width: 350px;
+  min-width: 250px;
   margin: 0.3rem;
-  flex-basis: 45%;
+  flex-basis: 30%;
   padding: 0.5rem;
   text-align: left;
   color: inherit;
@@ -122,7 +122,7 @@
 
 button#random8 {
   min-width: 350px;
-  width: 730px; /* browser */
+  width: 90%;
   padding: 0px 10px 5px 10px;
   border: 2px solid #0d6efd;
   border-radius: 10px;
