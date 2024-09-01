@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "lodash": "^4.17.21",
-    "next": "^14.2.5",
+    "next": "^14.2.7",
     "node-petname": "^1.0.1",
     "notiflix": "^3.2.7",
     "react": "^18.2.0",
