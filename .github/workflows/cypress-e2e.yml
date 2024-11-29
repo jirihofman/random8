@@ -8,7 +8,7 @@ jobs:
         uses: actions/checkout@v4
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
-      - name: Next cache
+      - name: Next build cache
         uses: actions/cache@v4
         with:
           path: |
