@@ -23,7 +23,7 @@
     "uuid": "^11.1.0"
   },
   "devDependencies": {
-    "cypress": "^14.3.2",
+    "cypress": "^14.4.0",
     "eslint-config-next": "^15.1.7"
   }
 }
