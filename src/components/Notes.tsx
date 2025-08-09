@@ -1,5 +1,5 @@
-import firstNames from '../first-names.json';
-import lastNames from '../names.json';
+import firstNames from '../../first-names.json';
+import lastNames from '../../names.json';
 
 export default function Notes() {
 	return <div>

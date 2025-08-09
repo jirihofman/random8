@@ -1,15 +1,15 @@
 'use client';
 import { useState, useEffect } from 'react'
-import { Notify } from 'notiflix/build/notiflix-notify-aio';
+import NotifixPkg from 'notiflix/build/notiflix-notify-aio';
+const { Notify } = NotifixPkg;
 import * as uuid from 'uuid';
 import random from 'lodash/random';
 import nodePetNames from 'node-petname';
-import styles from '../styles/Home.module.css'
-import firstNames from '../first-names.json';
-import lastNames from '../names.json';
-import Notes from '../components/notes';
+import firstNames from '../../first-names.json';
+import lastNames from '../../names.json';
+import Notes from './Notes';
 
-export default function Home() {
+export default function RandomGenerator() {
 
 	const getNames = length => {
 		return Array.from({ length }, getRandomName)
@@ -159,24 +159,24 @@ export default function Home() {
 	}
 
 	return (
-		<div className={styles.container}>
-			<main className={styles.main}>
+		<div className="container">
+			<main className="main">
 
-				<button onClick={handleGenerateClick} id={styles.random8} title="Click to generate new data for each seaction.">
+				<button onClick={handleGenerateClick} id="random8" title="Click to generate new data for each seaction.">
 					<h2>Random8</h2>
 					<i>click to generate random data</i>
 				</button>
 
-				<div className={styles.grid}>
+				<div className="grid">
 
-					<div className={styles.card}>
+					<div className="card">
 						<h3>Names</h3>
 						{
 							names.map((name, i) => <input type="text" className="name" style={{ width: '100%' }} readOnly value={name} onClick={handleInputClick} key={i} />)
 						}
 					</div>
 
-					<div className={styles.card}>
+					<div className="card">
 						<h3>Emails <button onClick={handleEmailCopyAllClick}>Copy all emails</button> {tooltip('Copied emails are comma separated')}</h3>
 						<input type="text" id="emailsAll" value="" style={{ display: 'block', position: 'absolute', zIndex: '-1' }} readOnly />
 						{
@@ -184,7 +184,7 @@ export default function Home() {
 						}
 					</div>
 
-					<div className={styles.card}>
+					<div className="card">
 						<h3>Numbers {tooltip('Number sizes: 4, 8, 12')}</h3>
 						{
 							numbers.map((key, i) => {
@@ -197,14 +197,14 @@ export default function Home() {
 						}
 					</div>
 
-					<div className={styles.card}>
+					<div className="card">
 						<h3>Passwords</h3>
 						{
 							passwords.map((password, i) => <input type="text" className="password" style={{ width: '100%' }} readOnly value={password} onClick={handleInputClick} key={i} />)
 						}
 					</div>
 
-					<div className={styles.card}>
+					<div className="card">
 						<h3>Phone numbers</h3>
 						{
 							phoneNumbers.map((key, i) => {
@@ -217,7 +217,7 @@ export default function Home() {
 						}
 					</div>
 
-					<div className={styles.card}>
+					<div className="card">
 						<h3>Date & Time</h3>
 						{
 							dates.map((key, i) => {
@@ -229,7 +229,7 @@ export default function Home() {
 						}
 					</div>
 
-					<div className={styles.card}>
+					<div className="card">
 						<h3>Persona</h3>
 						<div>
 							<label>Name</label>
@@ -256,7 +256,7 @@ export default function Home() {
 						<div id='persona-messages'>
 							{
 								persona.refreshingEmail ? <i>Loading emails ...</i> :
-									personaEmails.length ? personaEmails.map(msg => <div style={{ 'font-size': '10px' }} key={msg.id}>
+									personaEmails.length ? personaEmails.map(msg => <div style={{ 'fontSize': '10px' }} key={msg.id}>
 										<a href={`https://www.1secmail.com/mailbox/?action=readMessage&id=${msg.id}&login=${getMailNickname(persona.name)}&domain=1secmail.org`} target="_blank" rel="noopener noreferrer" title='View email'>{msg.date}</a>
 										| {msg.firstHref ? <a target="_blank" rel="noopener noreferrer" href={msg.firstHref} title={'Link to: ' + msg.firstHref}>first link</a> : null}
 										| <b>{msg.shortText}</b>
@@ -266,12 +266,12 @@ export default function Home() {
 						</div>
 					</div>
 
-					<div className={styles.card}>
+					<div className="card">
 						<h3>Pet names</h3>
 						{petNames.map((name, i) => <input type="text" className="name" style={{ width: '100%' }} readOnly value={name} onClick={handleInputClick} key={i} />)}
 					</div>
 
-					<div className={styles.card}>
+					<div className="card">
 						<h3>Keys</h3>
 						{
 							keys.map((key, i) => <input type="text" className="password" style={{ width: '100%' }} readOnly value={key} onClick={handleInputClick} key={i} />)
@@ -283,7 +283,7 @@ export default function Home() {
 				</div>
 			</main>
 
-			<footer className={styles.footer}>
+			<footer className="footer">
 				<iframe src="https://ghbtns.com/github-btn.html?user=jirihofman&repo=random8&type=star&count=true&size=large&v=2" frameBorder="0" scrolling="0" width="170" height="30" title="GitHub"></iframe>
 			</footer>
 		</div>
