@@ -9,13 +9,16 @@
   },
   "description": "Random generator of names, emails, codes, passwords and complete personas. All in one place and as simple as it could possibly be.",
   "scripts": {
-    "dev": "next dev --turbo",
-    "build": "next build",
-    "start": "next start -p 2999"
+    "dev": "astro dev",
+    "build": "astro build",
+    "start": "astro start",
+    "preview": "astro preview"
   },
   "dependencies": {
+    "@astrojs/react": "^4.3.0",
+    "@astrojs/vercel": "^8.2.5",
+    "astro": "^5.12.9",
     "lodash": "^4.17.21",
-    "next": "^15.2.4",
     "node-petname": "^1.0.1",
     "notiflix": "^3.2.8",
     "react": "^19.1.0",
@@ -23,7 +26,6 @@
     "uuid": "^11.1.0"
   },
   "devDependencies": {
-    "cypress": "^14.5.1",
-    "eslint-config-next": "^15.3.5"
+    "cypress": "^14.5.1"
   }
 }

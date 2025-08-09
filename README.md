@@ -11,8 +11,8 @@ npm run dev
 yarn dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:4321](http://localhost:4321) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.jsx`. The page auto-updates as you edit the file.
-## Next.js
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+You can start editing the page by modifying `src/pages/index.astro`. The page auto-updates as you edit the file.
+## Astro
+This is an [Astro](https://astro.build/) project with React components for optimal performance and minimal bundle size.
