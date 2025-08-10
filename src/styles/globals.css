@@ -10,13 +10,26 @@ body {
   box-sizing: border-box;
 }
 
+/* Prevent iOS Safari zoom when focusing on input elements with font-size < 16px */
 /* https://stackoverflow.com/questions/2989263/disable-auto-zoom-in-input-text-tag-safari-on-iphone */
 @media screen and (-webkit-min-device-pixel-ratio:0) {
-
   select,
   textarea,
   input {
-    font-size: 16px;
+    font-size: 16px !important;
+  }
+}
+
+/* Additional specificity for iOS Safari */
+@supports (-webkit-overflow-scrolling: touch) {
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="number"],
+  input[type="tel"],
+  textarea,
+  select {
+    font-size: 16px !important;
   }
 }
 
