@@ -8,7 +8,7 @@ import pjson from '../../package.json';
 	<RandomGenerator client:load />
 </Layout>
 
-<style>
+<style is:global>
 .container {
   min-height: 100vh;
   padding: 0 0.5rem;
@@ -97,7 +97,7 @@ import pjson from '../../package.json';
   text-align: left;
   color: inherit;
   text-decoration: none;
-  border: 3px solid #aaaaaa;
+  border: 3px solid #bdbdbd;
   border-radius: 7px;
   transition: color 0.15s ease, border-color 0.15s ease;
 }
@@ -110,8 +110,9 @@ import pjson from '../../package.json';
 }
 
 .card h3 {
-  margin: 0 0 0.3rem 0;
-  font-size: 1.5rem;
+  margin: 0 0 0.6rem 0;
+  font-size: 2rem;
+  font-weight: 800;
 }
 
 .card p {
@@ -134,8 +135,8 @@ import pjson from '../../package.json';
 button#random8 {
   min-width: 350px;
   width: 90%;
-  padding: 0px 10px 5px 10px;
-  border: 2px solid #0d6efd;
+  padding: 6px 12px 10px 12px;
+  border: 2px dotted #1bbbe0;
   border-radius: 10px;
   background-color: #0dcaf0;
 }
@@ -144,18 +145,57 @@ button#random8:hover {
   background-color: #0d6efd;
 }
 
+button#random8 h2 {
+  margin: 8px 0 0 0;
+  font-size: 2.2rem;
+}
+
+button#random8 i {
+  display: block;
+  margin-bottom: 4px;
+  color: #063b4d;
+}
+
+/* Old Next.js look: inputs were larger, with clear borders */
+.card input[type="text"] {
+  margin: 4px 0;
+  padding: 6px 8px;
+  border: 1px solid #bfbfbf;
+  border-radius: 6px;
+  font-size: 18px;
+  height: 38px;
+}
+
+/* small action button inside headings (e.g., Copy all emails) */
+.card h3 button {
+  margin-left: 8px;
+  padding: 4px 8px;
+  font-size: 0.9rem;
+  background: #f3f3f3;
+  border: 1px solid #bfbfbf;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.card h3 button:hover {
+  background: #e7e7e7;
+}
+
 /* iPhone */
 @media (max-width: 600px) {
   .grid {
     width: 100%;
     flex-direction: column;
   }
+  .card h3 {
+    font-size: 1.8rem;
+  }
 }
 /* iPhone flipped */
 @media (max-width: 720px) {
   button#random8 {
     width: 350px;
-    padding: 0px 10px 5px 10px;
+    padding: 6px 12px 10px 12px;
     border: 2px dotted gray;
     border-radius: 10px;
   }

@@ -125,12 +125,18 @@ export default function RandomGenerator() {
 
 
 	const handleEmailCopyAllClick = async () => {
-		const hidden = document.getElementById('emailsAll');
-		hidden.value = emails.join(' ');
-		hidden.select();
-		document.execCommand('copy');
-		Notify.success(['<b>Copied!</b>', hidden.value].join(' '), { plainText: false });
-		hidden.value = ''
+		const hidden = document.getElementById('emailsAll') as HTMLInputElement | null;
+		if (hidden) {
+			hidden.value = emails.join(' ');
+			hidden.select();
+			try {
+				await navigator.clipboard.writeText(hidden.value);
+				Notify.success(['<b>Copied!</b>', hidden.value].join(' '), { plainText: false });
+			} catch (err) {
+				Notify.failure('Failed to copy emails.');
+			}
+			hidden.value = '';
+		}
 	}
 
 	return (
@@ -186,7 +192,6 @@ export default function RandomGenerator() {
 								return <span key={i}>
 									{countries[i]}
 									<input type="text" className="phone-number" readOnly value={key} onClick={handleInputClick} style={{ marginLeft: '0.5em', paddingLeft: '0.5em', width: '90%' }} />
-									<br />
 								</span>
 							})
 						}
