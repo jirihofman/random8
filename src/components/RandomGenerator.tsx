@@ -18,7 +18,7 @@ export default function RandomGenerator() {
 		return Array.from({ length }, getRandomEmail)
 	}
 	const genPersona = (personaName) => {
-		return { name: personaName, password: getHumanPwd(12), uuid: uuid.v4(), email: getRandomEmail({ disposable: true, name: personaName }), refreshingEmail: false, phoneNumber: getRandomPhoneNumber([ 'cz', 'us', 'uk' ][random(0, 2)])}
+		return { name: personaName, password: getHumanPwd(12), uuid: uuid.v4(), email: getRandomEmail({ name: personaName }), phoneNumber: getRandomPhoneNumber([ 'cz', 'us', 'uk' ][random(0, 2)])}
 	}
 	const getPasswords = () => {
 		return [
@@ -81,7 +81,6 @@ export default function RandomGenerator() {
 	const [passwords, setPasswords] = useState([...emptyArray, ''])
 	const [numbers, setNumbers] = useState([...emptyArray, ...emptyArray, ...emptyArray]);
 	const [persona, setPersona] = useState([])
-	const [personaEmails, setPersonaEmails] = useState([])
 	const [dates, setDates] = useState([...emptyArray, ...emptyArray, '', ''])
 	const [phoneNumbers, setPhoneNumbers] = useState(emptyArray)
 	const [petNames, setPetNames] = useState(emptyArray)
@@ -95,7 +94,6 @@ export default function RandomGenerator() {
 		setPasswords(getPasswords())
 		setNumbers(getNumbers())
 		setPersona(genPersona(personaName))
-		setPersonaEmails([])
 		setDates(getDates())
 		setPhoneNumbers(getPhoneNumbers())
 		setPetNames(getPetNames())
@@ -113,7 +111,6 @@ export default function RandomGenerator() {
 		const personaName = getRandomName()
 		const newPersona = genPersona(personaName)
 		setPersona(newPersona)
-		setPersonaEmails([])
 		setDates(getDates())
 		setPhoneNumbers(getPhoneNumbers())
 		setPetNames(getPetNames())
@@ -125,29 +122,7 @@ export default function RandomGenerator() {
 		Notify.success(['<b>Copied!</b>', event.target.value].join(' '), { plainText: false });
 	}
 
-	const handleEmailRefreshClick = async event => {
-		setPersona({ ...persona, refreshingEmail: true })
-		const newNick = getMailNickname(persona.name)
-		const res = await fetch(`https://www.1secmail.com/api/v1/?action=getMessages&login=${newNick}&domain=1secmail.org`)
-		const emails = await res.json()
 
-		let i = 0;
-		for (const email of emails) {
-			const res = await fetch(`https://www.1secmail.com/api/v1/?action=readMessage&login=${newNick}&domain=1secmail.org&id=${email.id}`)
-			const emailDetails = await res.json();
-			// Should be enough for messages like "Your confirmation code is 355245"
-			emails[i].shortText = emailDetails.body.substring(0, 50);
-
-			// Try to get the first link href
-			const href = emailDetails.body.match(/.*href="([^"]+)".*/)
-			if (href && href[1]) emails[i].firstHref = href[1];
-			i++;
-		}
-		if (emails.length) {
-			setPersonaEmails(emails)
-		}
-		setPersona({ ...persona, refreshingEmail: false })
-	}
 
 	const handleEmailCopyAllClick = async () => {
 		const hidden = document.getElementById('emailsAll');
@@ -234,7 +209,6 @@ export default function RandomGenerator() {
 						<div>
 							<label>Name</label>
 							<input type="text" className="persona" size="18" readOnly value={persona.name} onClick={handleInputClick} />
-							<button onClick={handleEmailRefreshClick}>check email</button>
 						</div>
 						<div>
 							<label>UUID</label>
@@ -251,18 +225,6 @@ export default function RandomGenerator() {
 						<div>
 							<label>Pwd</label>
 							<input type="text" className="persona" style={{ width: '80%' }} readOnly value={persona.password} onClick={handleInputClick} />
-						</div>
-						<hr />
-						<div id='persona-messages'>
-							{
-								persona.refreshingEmail ? <i>Loading emails ...</i> :
-									personaEmails.length ? personaEmails.map(msg => <div style={{ 'fontSize': '10px' }} key={msg.id}>
-										<a href={`https://www.1secmail.com/mailbox/?action=readMessage&id=${msg.id}&login=${getMailNickname(persona.name)}&domain=1secmail.org`} target="_blank" rel="noopener noreferrer" title='View email'>{msg.date}</a>
-										| {msg.firstHref ? <a target="_blank" rel="noopener noreferrer" href={msg.firstHref} title={'Link to: ' + msg.firstHref}>first link</a> : null}
-										| <b>{msg.shortText}</b>
-										{[msg.subject.substr(100), msg.from].join(' | ')}</div>) : <div>No messages</div>
-							}
-							<span id='persona-tooltip'>{tooltip('The first link opens 1secmail.org mailbox. The second one directly opens the first link that is found in the email message. Useful for confirming email addresses for example.')}</span>
 						</div>
 					</div>
 
@@ -330,14 +292,11 @@ function getRandomEmail(options) {
 	let nick = getRandomKey(12, true, false, true, false, false);
 
 	if (options) {
-		const { disposable, name } = options
-		if (disposable) {
-			domain = '1secmail.org'
-		}
+		const { name } = options
 
 		if (name) {
 			// try to generate email address similar to the name provided
-			nick = getMailNickname(name)
+			nick = name.replace(/ /g, '.').toLowerCase();
 		}
 	}
 
@@ -352,9 +311,7 @@ function getRandomName() {
 	return [firstName, middleName, lastName].filter(Boolean).join(' ');
 }
 
-function getMailNickname(name = '') {
-	return name.replace(/ /g, '.').toLowerCase();
-}
+
 
 function getHumanPwd(length) {
 	if (length < 8) throw 'Max pwd length must be 8';
