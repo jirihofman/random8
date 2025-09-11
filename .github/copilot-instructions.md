@@ -1,30 +1,31 @@
 # Random8
-Random8 is a Next.js React web application that generates random data including names, emails, passwords, phone numbers, UUIDs, dates, and complete user personas. The application provides instant copy-to-clipboard functionality and is designed for developers who need random test data.
+Random8 is an Astro React web application that generates random data including names, emails, passwords, phone numbers, UUIDs, dates, and complete user personas. The application provides instant copy-to-clipboard functionality and is designed for developers who need random test data.
 
 Always reference these instructions first and fallback to search or bash commands only when you encounter unexpected information that does not match the info here.
 
 ## Working Effectively
 - Bootstrap and run the application:
   - `npm install --omit=dev` -- installs core dependencies. Takes ~5 seconds.
-  - `npm run build` -- builds production application. Takes ~20 seconds. NEVER CANCEL.
-  - `npm start` -- starts production server on port 2999. Ready in ~350ms.
+  - `npm run build` -- builds production application with Astro. Takes ~15 seconds. NEVER CANCEL.
+  - `npm run start` -- starts production server via Astro on port 4321. Ready in ~500ms.
 - Development workflow:
   - `npm install --omit=dev` -- for core dependencies only
-  - `npm run dev` -- starts development server with Turbopack on port 3000. Ready in ~700ms.
-- Cypress end-to-end testing:
-  - `npm install` -- fails due to network restrictions downloading Cypress binary from download.cypress.io
-  - Alternative: Use GitHub Actions for e2e testing (see .github/workflows/cypress-e2e.yml)
-  - CI runs: `npm run build && npm start` then Cypress tests against localhost:2999
+  - `npm run dev` -- starts Astro development server on port 4321. Ready in ~800ms.
+- Playwright end-to-end testing:
+  - `npm install` -- installs all dependencies including Playwright browser binaries
+  - `npm run test` -- runs Playwright tests against localhost:4321
+  - `npm run test:ui` -- runs Playwright tests with interactive UI mode
+  - Alternative: Use GitHub Actions for e2e testing (see .github/workflows/)
 
 ## Build Process and Timing
 - **npm install --omit=dev**: 5 seconds. NEVER CANCEL. Set timeout to 60+ seconds.
-- **npm run build**: 20 seconds. NEVER CANCEL. Set timeout to 60+ seconds.
-- **npm start**: Production server ready in 350ms on port 2999
-- **npm run dev**: Development server ready in 700ms on port 3000 with Turbopack
+- **npm run build**: 15 seconds with Astro static build. NEVER CANCEL. Set timeout to 60+ seconds.
+- **npm run start**: Production server ready in 500ms on port 4321
+- **npm run dev**: Development server ready in 800ms on port 4321 with Astro dev server
 
 ## Validation
 - Always manually test the application functionality after making changes:
-  1. Navigate to the running application (localhost:3000 for dev, localhost:2999 for production)
+  1. Navigate to the running application (localhost:4321 for both dev and production)
   2. Click the main "Random8" button to generate random data
   3. Verify all sections populate: Names, Emails, Numbers, Passwords, Phone numbers, Date & Time, Persona, Pet names, Keys
   4. Test copy functionality by clicking any input field - should show "Copied!" notification
@@ -33,23 +34,25 @@ Always reference these instructions first and fallback to search or bash command
 - Persona section includes disposable email from 1secmail.org with "check email" functionality
 
 ## Known Issues and Workarounds
-- **Cypress installation fails** due to network restrictions accessing download.cypress.io
+- **Playwright browser installation**: May take additional time on first install to download browser binaries
   - Workaround: Use `npm install --omit=dev` to install only production dependencies
-  - E2E testing runs successfully in GitHub Actions CI environment
+  - Full install with `npm install` includes Playwright browsers for testing
 - **ESLint configuration**: No lint script configured in package.json
-  - Next.js includes eslint-config-next as dev dependency but requires manual setup
-  - `npx next lint` prompts for configuration (Strict/Base/Cancel)
+  - Astro includes basic linting but requires manual ESLint setup for custom rules
 
 ## Application Architecture
-- **Framework**: Next.js 15.2.4 with React 19.1.0 and Turbopack
-- **Key Dependencies**: lodash, uuid, node-petname, notiflix
+- **Framework**: Astro 5.13.7 with React 19.1.0 integration and Vercel adapter
+- **Key Dependencies**: @astrojs/react, lodash, uuid, node-petname, notiflix
 - **Structure**:
-  - `/app/page.jsx` -- Main application component with all random generation logic
-  - `/components/notes.jsx` -- Notes, tips, and credits component
+  - `/src/pages/index.astro` -- Main application page with Astro component and React integration
+  - `/src/components/` -- React components for the application logic
+  - `/src/layouts/` -- Astro layout components
+  - `/src/styles/` -- CSS modules and global styles
   - `/first-names.json` -- 4,958 first names for random generation
   - `/names.json` -- 21,986 last names for random generation
-  - `/styles/` -- CSS modules for styling
-  - `/cypress/` -- E2E test specifications
+  - `/tests/` -- Playwright test specifications
+  - `/astro.config.mjs` -- Astro configuration with React integration and Vercel adapter
+  - `/playwright.config.js` -- Playwright testing configuration
 
 ## Data Sources
 - First names: 4,958 entries from first-names.json
@@ -60,47 +63,58 @@ Always reference these instructions first and fallback to search or bash command
 - UUID: Version 4 (random) using uuid library
 - Pet names: Generated using node-petname library
 
+## Astro-Specific Features
+- **Static Site Generation**: Application builds as static files for optimal performance
+- **React Integration**: React components work seamlessly within Astro pages
+- **Island Architecture**: JavaScript is only loaded for interactive components
+- **Vercel Adapter**: Configured for deployment on Vercel platform
+- **Development Server**: Hot module replacement and fast refresh in development mode
+- **Build Output**: Optimized static files in `dist/` directory after build
+
 ## Common Commands Output
 ### Repository root structure
 ```
 .
 ├── .github/                 # GitHub Actions workflows
-├── app/                     # Next.js app directory
-│   ├── layout.jsx          # Root layout component
-│   ├── page.jsx            # Main application page
-│   └── robots.txt          # SEO robots file
-├── components/             # React components
-│   └── notes.jsx          # Notes and credits component
-├── cypress/               # E2E test files
-│   ├── e2e/
-│   │   └── sanity.spec.js # Main test specification
-│   ├── plugins/
-│   └── support/
+├── astro.config.mjs        # Astro configuration file
+├── src/                    # Source code directory
+│   ├── pages/              # Astro pages
+│   │   ├── index.astro     # Main application page
+│   │   └── robots.txt.ts   # SEO robots file
+│   ├── components/         # React components
+│   ├── layouts/            # Astro layout components
+│   └── styles/             # CSS modules and styles
+├── tests/                  # Playwright test files
+│   └── sanity.spec.js     # Main test specification
+├── playwright.config.js    # Playwright configuration
 ├── public/                # Static assets
-├── styles/                # CSS modules
-├── cypress.config.js      # Cypress configuration
-├── first-names.json      # 4,958 first names
-├── names.json           # 21,986 last names
-├── package.json         # Dependencies and scripts
-└── README.md           # Project documentation
+├── first-names.json       # 4,958 first names
+├── names.json            # 21,986 last names
+├── package.json          # Dependencies and scripts
+└── README.md            # Project documentation
 ```
 
 ### package.json scripts
 ```json
 {
   "scripts": {
-    "dev": "next dev --turbo",
-    "build": "next build", 
-    "start": "next start -p 2999"
+    "dev": "astro dev",
+    "build": "astro build", 
+    "start": "astro start",
+    "preview": "astro preview",
+    "test": "playwright test",
+    "test:ui": "playwright test --ui"
   }
 }
 ```
 
 ## Testing Scenarios
 1. **Basic functionality**: Click Random8 button → all fields populate with random data
-2. **Copy functionality**: Click any text field → "Copied!" notification appears
+2. **Copy functionality**: Click any text field → "Copied!" notification appears  
 3. **Data variety**: Generate multiple times → different random values each time
 4. **Persona integration**: Verify persona name matches disposable email prefix
 5. **Phone number formats**: Verify international format for all 4 countries
 6. **UUID validity**: Verify UUID v4 format (8-4-4-4-12 hexadecimal digits)
 7. **Performance**: Page loads and data generation should be instantaneous
+8. **Playwright testing**: Run `npm run test` to execute automated test suite
+9. **Interactive testing**: Use `npm run test:ui` for visual test debugging
