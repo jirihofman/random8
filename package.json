@@ -17,17 +17,17 @@
     "test:ui": "playwright test --ui"
   },
   "dependencies": {
-    "@astrojs/react": "^4.3.0",
-    "@astrojs/vercel": "^8.2.5",
-    "astro": "^5.13.2",
+    "@astrojs/react": "^4.3.1",
+    "@astrojs/vercel": "^8.2.7",
+    "astro": "^5.13.7",
     "lodash": "^4.17.21",
     "node-petname": "^1.0.1",
     "notiflix": "^3.2.8",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "uuid": "^11.1.0"
+    "uuid": "^13.0.0"
   },
   "devDependencies": {
-    "@playwright/test": "^1.48.0"
+    "@playwright/test": "^1.55.0"
   }
 }
