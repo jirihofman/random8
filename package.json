@@ -28,6 +28,6 @@
     "uuid": "^13.0.0"
   },
   "devDependencies": {
-    "@playwright/test": "^1.55.0"
+    "@playwright/test": "^1.55.1"
   }
 }
