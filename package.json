@@ -19,7 +19,7 @@
   "dependencies": {
     "@astrojs/react": "^4.4.0",
     "@astrojs/vercel": "^8.2.8",
-    "astro": "^5.14.4",
+    "astro": "^5.15.6",
     "lodash": "^4.17.21",
     "node-petname": "^1.0.1",
     "notiflix": "^3.2.8",
