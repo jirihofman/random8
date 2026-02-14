@@ -32,8 +32,11 @@ test.describe('Generate button comprehensive tests', () => {
     // Click the generate button
     await page.locator('button#random8').click();
     
-    // Wait a bit for state updates
-    await page.waitForTimeout(200);
+    // Wait for values to change by checking the first name input
+    await page.waitForFunction((oldName) => {
+      const nameInput = document.querySelector('.card input.name');
+      return nameInput && nameInput.value !== oldName;
+    }, initialNames[0], { timeout: 5000 });
     
     // Get new values
     const newNames = await getAllInputValues(namesCard.locator('input.name'));
@@ -240,19 +243,31 @@ test.describe('Generate button comprehensive tests', () => {
   test('Multiple clicks generate different values each time', async ({ page }) => {
     const namesCard = page.locator('.card').filter({ hasText: 'Names' }).first();
     
+    // Get initial values
+    const initialNames = await getAllInputValues(namesCard.locator('input.name'));
+    
     // Get first set of values
     await page.locator('button#random8').click();
-    await page.waitForTimeout(200);
+    await page.waitForFunction((oldName) => {
+      const nameInput = document.querySelector('.card input.name');
+      return nameInput && nameInput.value !== oldName;
+    }, initialNames[0], { timeout: 5000 });
     const firstNames = await getAllInputValues(namesCard.locator('input.name'));
     
     // Get second set of values
     await page.locator('button#random8').click();
-    await page.waitForTimeout(200);
+    await page.waitForFunction((oldName) => {
+      const nameInput = document.querySelector('.card input.name');
+      return nameInput && nameInput.value !== oldName;
+    }, firstNames[0], { timeout: 5000 });
     const secondNames = await getAllInputValues(namesCard.locator('input.name'));
     
     // Get third set of values
     await page.locator('button#random8').click();
-    await page.waitForTimeout(200);
+    await page.waitForFunction((oldName) => {
+      const nameInput = document.querySelector('.card input.name');
+      return nameInput && nameInput.value !== oldName;
+    }, secondNames[0], { timeout: 5000 });
     const thirdNames = await getAllInputValues(namesCard.locator('input.name'));
     
     // Verify they are all different
@@ -262,12 +277,20 @@ test.describe('Generate button comprehensive tests', () => {
   });
 
   test('All sections populate with non-empty values', async ({ page }) => {
+    // Get initial name to verify change after clicking
+    const namesCard = page.locator('.card').filter({ hasText: 'Names' }).first();
+    const initialName = await namesCard.locator('input.name').first().inputValue();
+    
     // Click generate button
     await page.locator('button#random8').click();
-    await page.waitForTimeout(200);
+    
+    // Wait for values to change
+    await page.waitForFunction((oldName) => {
+      const nameInput = document.querySelector('.card input.name');
+      return nameInput && nameInput.value !== oldName;
+    }, initialName, { timeout: 5000 });
     
     // Check Names section
-    const namesCard = page.locator('.card').filter({ hasText: 'Names' }).first();
     const names = await getAllInputValues(namesCard.locator('input.name'));
     for (const value of names) {
       expect(value).not.toBe('');

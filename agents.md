@@ -44,7 +44,11 @@ npm run preview  # Serve built static files on http://localhost:4321
 ## Testing
 
 ### Important: Stop Development Server Before Testing
-**CRITICAL**: Always stop the development server with `Ctrl+C` before running tests. The Playwright configuration is set to `reuseExistingServer: !process.env.CI`, which means tests will fail if a dev server is already running locally.
+**CRITICAL**: Always stop the development server with `Ctrl+C` before running tests. The Playwright configuration is set to `reuseExistingServer: !process.env.CI`, which means:
+- **Locally (not in CI)**: Tests will reuse an existing server if one is running on port 4321
+- **In CI**: Tests will always start a fresh server
+
+While tests can reuse an existing server locally, it's best practice to stop any running dev server before testing to ensure a clean test environment and avoid potential port conflicts or state issues.
 
 ### Running Tests
 ```bash
