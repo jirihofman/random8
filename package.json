@@ -17,7 +17,7 @@
     "test:ui": "playwright test --ui"
   },
   "dependencies": {
-    "@astrojs/react": "^4.4.0",
+    "@astrojs/react": "^6.0.0",
     "@astrojs/vercel": "^10.0.2",
     "astro": "^6.4.6",
     "lodash": "^4.18.1",
