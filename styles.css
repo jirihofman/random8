@@ -285,3 +285,37 @@ button#random8 i {
     border-radius: 10px;
   }
 }
+
+@media (min-width: 601px) and (max-width: 820px) and (orientation: landscape) {
+  .grid {
+    align-items: flex-start;
+  }
+
+  .card {
+    flex: 1 1 calc(50% - 0.6rem);
+    min-width: 0;
+  }
+
+  .date-card {
+    flex-basis: calc(100% - 0.6rem);
+  }
+
+  .card h3 {
+    font-size: 1.65rem;
+    line-height: 1.1;
+  }
+
+  .card input[type="text"] {
+    max-width: 100%;
+  }
+
+  .card input.phone-number,
+  .card input.date {
+    width: 100% !important;
+  }
+
+  .phone-card span,
+  .date-card span {
+    display: block;
+  }
+}
