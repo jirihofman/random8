@@ -8,13 +8,8 @@
 # testing
 /coverage
 
-# next.js
-/.next/
-/out/
-
-# astro
+# static build
 /dist/
-/.astro/
 
 # production
 /build

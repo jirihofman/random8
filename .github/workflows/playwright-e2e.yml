@@ -19,7 +19,7 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install chromium
       
-      - name: Build Astro site
+      - name: Build static site
         run: npm run build
       
       - name: Run Playwright tests

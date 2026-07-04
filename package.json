@@ -9,23 +9,12 @@
   },
   "description": "Random generator of names, emails, codes, passwords and complete personas. All in one place and as simple as it could possibly be.",
   "scripts": {
-    "dev": "astro dev",
-    "build": "astro build",
-    "start": "astro start",
-    "preview": "astro preview",
+    "dev": "python3 -m http.server 4322",
+    "build": "node -e \"const fs=require('fs'); fs.rmSync('dist',{recursive:true,force:true}); fs.mkdirSync('dist',{recursive:true}); for (const f of ['index.html','app.js','styles.css']) fs.copyFileSync(f,'dist/'+f); if (fs.existsSync('public')) fs.cpSync('public','dist/public',{recursive:true});\"",
+    "start": "npm run dev",
+    "preview": "npm run dev",
     "test": "playwright test",
     "test:ui": "playwright test --ui"
-  },
-  "dependencies": {
-    "@astrojs/react": "^4.4.0",
-    "@astrojs/vercel": "^10.0.2",
-    "astro": "^6.4.6",
-    "lodash": "^4.18.1",
-    "node-petname": "^1.0.1",
-    "notiflix": "^3.2.8",
-    "react": "^19.1.0",
-    "react-dom": "^19.2.3",
-    "uuid": "^14.0.0"
   },
   "devDependencies": {
     "@playwright/test": "^1.57.0"
