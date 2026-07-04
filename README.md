@@ -6,12 +6,12 @@ First, run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
 ```
 
-Open [http://localhost:4321](http://localhost:4321) with your browser to see the result.
+Open [http://localhost:4322](http://localhost:4322) with your browser to see the result.
 
-You can start editing the page by modifying `src/pages/index.astro`. The page auto-updates as you edit the file.
-## Astro
-This is an [Astro](https://astro.build/) project with React components for optimal performance and minimal bundle size.
+The site is plain static HTML, CSS, and JavaScript:
+
+- `index.html`
+- `styles.css`
+- `app.js`

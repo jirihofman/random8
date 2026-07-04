@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/x-icon" href="public/favicon.ico" />
+    <meta name="viewport" content="width=device-width" />
+    <meta
+      name="description"
+      content="Random generator of names, emails, codes, passwords and complete personas. All in one place and as simple as it could possibly be."
+    />
+    <title>Random8</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <main class="main">
+        <button id="random8" title="Click to generate new data for each seaction.">
+          <h2>Random8</h2>
+          <i>click to generate random data</i>
+        </button>
+
+        <div class="grid">
+          <div class="card">
+            <h3>Names</h3>
+            <input type="text" class="name" style="width: 100%;" readonly />
+            <input type="text" class="name" style="width: 100%;" readonly />
+            <input type="text" class="name" style="width: 100%;" readonly />
+          </div>
+
+          <div class="card">
+            <h3>
+              Emails
+              <button type="button" id="copy-emails">Copy all emails</button>
+              <div class="tooltip">❓<div class="tooltiptext">Copied emails are comma separated</div></div>
+            </h3>
+            <input type="text" id="emailsAll" value="" style="display: block; position: absolute; z-index: -1;" readonly />
+            <input type="text" class="email" style="width: 100%;" readonly />
+            <input type="text" class="email" style="width: 100%;" readonly />
+            <input type="text" class="email" style="width: 100%;" readonly />
+          </div>
+
+          <div class="card">
+            <h3>
+              Numbers
+              <div class="tooltip">❓<div class="tooltiptext">Number sizes: 4, 8, 12</div></div>
+            </h3>
+            <span><input type="text" class="number" style="padding-left: 0.5em; width: 20%;" readonly /></span>
+            <span><input type="text" class="number" style="padding-left: 0.5em; width: 30%;" readonly /></span>
+            <span><input type="text" class="number" style="padding-left: 0.5em; width: 45%;" readonly /><br /></span>
+            <span><input type="text" class="number" style="padding-left: 0.5em; width: 20%;" readonly /></span>
+            <span><input type="text" class="number" style="padding-left: 0.5em; width: 30%;" readonly /></span>
+            <span><input type="text" class="number" style="padding-left: 0.5em; width: 45%;" readonly /><br /></span>
+            <span><input type="text" class="number" style="padding-left: 0.5em; width: 20%;" readonly /></span>
+            <span><input type="text" class="number" style="padding-left: 0.5em; width: 30%;" readonly /></span>
+            <span><input type="text" class="number" style="padding-left: 0.5em; width: 45%;" readonly /><br /></span>
+          </div>
+
+          <div class="card">
+            <h3>Passwords</h3>
+            <input type="text" class="password" style="width: 100%;" readonly />
+            <input type="text" class="password" style="width: 100%;" readonly />
+            <input type="text" class="password" style="width: 100%;" readonly />
+            <input type="text" class="password" style="width: 100%;" readonly />
+          </div>
+
+          <div class="card">
+            <h3>Phone numbers</h3>
+            <span>🇨🇿<input type="text" class="phone-number" style="margin-left: 0.5em; padding-left: 0.5em; width: 90%;" readonly /></span>
+            <span>🇺🇸<input type="text" class="phone-number" style="margin-left: 0.5em; padding-left: 0.5em; width: 90%;" readonly /></span>
+            <span>🇬🇧<input type="text" class="phone-number" style="margin-left: 0.5em; padding-left: 0.5em; width: 90%;" readonly /></span>
+            <span>🇮🇳<input type="text" class="phone-number" style="margin-left: 0.5em; padding-left: 0.5em; width: 90%;" readonly /></span>
+          </div>
+
+          <div class="card">
+            <h3>Date & Time</h3>
+            <span><input type="text" class="date" style="padding-left: 0.5em; width: 50%;" readonly /></span>
+            <span><input type="text" class="date" style="padding-left: 0.5em; width: 50%;" readonly /></span>
+            <span><input type="text" class="date" style="padding-left: 0.5em; width: 50%;" readonly /></span>
+            <span><input type="text" class="date" style="padding-left: 0.5em; width: 50%;" readonly /></span>
+            <span><input type="text" class="date" style="padding-left: 0.5em; width: 50%;" readonly /></span>
+            <span><input type="text" class="date" style="padding-left: 0.5em; width: 50%;" readonly /></span>
+            <span><input type="text" class="date" style="padding-left: 0.5em; width: 50%;" readonly /></span>
+            <span><input type="text" class="date" style="padding-left: 0.5em; width: 50%;" readonly /></span>
+          </div>
+
+          <div class="card">
+            <h3>Persona</h3>
+            <div>
+              <label>Name</label>
+              <input type="text" class="persona" size="18" readonly />
+            </div>
+            <div>
+              <label>UUID</label>
+              <input type="text" class="persona" style="width: 80%;" readonly />
+            </div>
+            <div>
+              <label>Email</label>
+              <input type="text" class="persona" style="width: 80%;" readonly />
+            </div>
+            <div>
+              <label>Phone</label>
+              <input type="text" class="phone-number persona-phone" style="width: 80%;" readonly />
+            </div>
+            <div>
+              <label>Pwd</label>
+              <input type="text" class="persona" style="width: 80%;" readonly />
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>Pet names</h3>
+            <input type="text" class="name pet-name" style="width: 100%;" readonly />
+            <input type="text" class="name pet-name" style="width: 100%;" readonly />
+            <input type="text" class="name pet-name" style="width: 100%;" readonly />
+          </div>
+
+          <div class="card">
+            <h3>Keys</h3>
+            <input type="text" class="password key" style="width: 100%;" readonly />
+            <input type="text" class="password key" style="width: 100%;" readonly />
+            <input type="text" class="password key" style="width: 100%;" readonly />
+          </div>
+
+          <div>
+            <h3>Notes & tips</h3>
+            <ul>
+              <li>Simply <b>click the input</b> and its value is copied into clipboard automatically.</li>
+              <li>
+                <div>Number of first names: <span id="first-name-count"></span></div>
+                <div>Number of last names: <span id="last-name-count"></span></div>
+              </li>
+              <li>UUID is <a href="https://en.wikipedia.org/wiki/Universally_unique_identifier#Version_4_(random)">version 4</a> (random).</li>
+            </ul>
+            <h3>Credits</h3>
+            <ul>
+              <li>Email service by <a href="https://www.1secmail.com/" rel="noopener noreferrer">https://www.1secmail.com/</a></li>
+              <li>Keygen source <a href="https://randomkeygen.com/" rel="noopener noreferrer">https://randomkeygen.com/</a></li>
+              <li>Random names from <a href="https://github.com/dominictarr/random-name" rel="noopener noreferrer">https://github.com/dominictarr/random-name</a></li>
+            </ul>
+          </div>
+        </div>
+      </main>
+
+      <footer class="footer">
+        <iframe src="https://ghbtns.com/github-btn.html?user=jirihofman&repo=random8&type=star&count=true&size=large&v=2" frameborder="0" scrolling="0" width="170" height="30" title="GitHub"></iframe>
+      </footer>
+    </div>
+
+    <script src="app.js" defer></script>
+  </body>
+</html>

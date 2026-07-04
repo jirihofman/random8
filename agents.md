@@ -4,204 +4,133 @@ This document provides guidelines for AI agents working on the Random8 project.
 
 ## Project Overview
 
-Random8 is an Astro-based web application with React components that generates random values including:
-- Names (first, middle, last)
+Random8 is a plain static HTML/CSS/JavaScript application that generates random values including:
+- Names
 - Email addresses
-- Passwords (human-readable and complex)
-- Phone numbers (CZ, US, UK, IN formats)
-- Numbers (4, 8, 12 digit lengths)
-- Dates & timestamps
+- Passwords
+- Phone numbers in CZ, US, UK, and IN formats
+- Numbers with 4, 8, and 12 digit lengths
+- Dates and timestamps
 - Complete personas
 - Pet names
 - Keys and UUIDs
+
+The runtime site is intentionally limited to:
+- `index.html`
+- `app.js`
+- `styles.css`
 
 ## Development Workflow
 
 ### Prerequisites
 - Node.js 18+
-- npm or yarn
+- npm
+- Python 3 for the local static server
 
 ### Setup
 ```bash
-npm install  # Install dependencies (~16 seconds)
+npm install
 ```
 
 ### Development
 ```bash
-npm run dev  # Start development server on http://localhost:4321 (~1 second)
+npm run dev
 ```
+
+Open http://localhost:4322.
 
 ### Build
 ```bash
-npm run build  # Production build (~3 seconds, VERY FAST)
+npm run build
 ```
+
+The build copies `index.html`, `app.js`, `styles.css`, and `public/` into `dist/`.
 
 ### Preview
 ```bash
-npm run preview  # Serve built static files on http://localhost:4321
+npm run preview
 ```
 
 ## Testing
 
-### Important: Stop Development Server Before Testing
-**CRITICAL**: Always stop the development server with `Ctrl+C` before running tests. The Playwright configuration is set to `reuseExistingServer: !process.env.CI`, which means:
-- **Locally (not in CI)**: Tests will reuse an existing server if one is running on port 4321
-- **In CI**: Tests will always start a fresh server
-
-While tests can reuse an existing server locally, it's best practice to stop any running dev server before testing to ensure a clean test environment and avoid potential port conflicts or state issues.
-
 ### Running Tests
 ```bash
-npm run test     # Run all Playwright E2E tests (~2 seconds)
-npm run test:ui  # Run tests with Playwright UI mode for debugging
+npm run test
+npm run test:ui
 ```
 
+The Playwright configuration starts the static server on http://localhost:4322. Stop any existing process on that port before running tests.
+
 ### Test Structure
-The project uses Playwright for end-to-end testing. Tests are located in the `tests/` directory:
+- `tests/sanity.spec.js` checks that the main sections, button, and tooltips exist.
+- `tests/generate-button.spec.js` validates generated value formats and button behavior.
 
-- `tests/sanity.spec.js` - Basic sanity checks (sections exist, button works, tooltips)
-- `tests/generate-button.spec.js` - Comprehensive validation of generated values
-
-### What to Test When Making Changes
-
-1. **Always run the full test suite** before committing:
-   ```bash
-   npm run test
-   ```
-
-2. **Manual validation** is required after changes:
-   - Navigate to http://localhost:4321
-   - Click the "Random8" button to generate new data
-   - Verify all sections populate correctly:
-     - Names (3 entries)
-     - Emails (3 entries)
-     - Numbers (9 entries in 3x3 grid)
-     - Passwords (4 entries)
-     - Phone numbers (4 entries: CZ, US, UK, IN)
-     - Date & Time (8 entries)
-     - Persona (name, UUID, email, phone, password)
-     - Pet names (3 entries)
-     - Keys (3 entries)
-   - Test click-to-copy functionality
-   - Verify "Copied!" notifications appear
-
-3. **Format validation tests** ensure:
-   - **Names**: At least 2 words (first + last), capitalized
-   - **Emails**: Valid email format with @gmail.com, @googlemail.com, or @hotmail.com
-   - **Passwords**: 
-     - Password 1: 8 characters (human-readable)
-     - Password 2: 12 characters (alphanumeric)
-     - Password 3: 16 characters (with special characters)
-     - Password 4: 32 characters
-   - **Phone numbers**:
-     - CZ: `+420 XXXXXXXXX` (9 digits)
-     - US: `+1 XXX-XXX-XXXX`
-     - UK: `+44XXXXXXXXXX` (10 digits)
-     - IN: `+91 XXXXX XXXXX` (5+5 digits)
-   - **Numbers**: 4, 8, or 12 digit lengths (digits only)
-   - **Dates**: ISO format, locale format, timestamps, Date strings
-   - **Persona UUID**: Valid UUID v4 format
-   - **Pet names**: 
-     - 2-word-XXXX (with 4-digit number)
-     - 3-word-word (hyphen-separated)
-     - 5_word_word_word_word (underscore-separated)
-   - **Keys**: 
-     - 16 character alphanumeric (2 keys)
-     - UUID v4 format (1 key)
+### Manual Validation
+After UI or generation changes:
+1. Navigate to http://localhost:4322.
+2. Click the "Random8" button.
+3. Verify all sections populate: Names, Emails, Numbers, Passwords, Phone numbers, Date & Time, Persona, Pet names, Keys.
+4. Click an input and verify the copied notification appears.
 
 ## CI/CD Pipeline
 
-The project uses GitHub Actions for continuous integration. The workflow (`.github/workflows/playwright-e2e.yml`) runs on every push:
-
+The GitHub Actions workflow at `.github/workflows/playwright-e2e.yml` runs on every push:
 1. Checkout code
 2. Setup Node.js 18
-3. Install dependencies (`npm ci`)
-4. Install Playwright browsers (chromium)
-5. Build the Astro site (`npm run build`)
-6. Run Playwright tests (`npm run test`)
-
-The CI configuration:
-- Runs on `ubuntu-latest`
-- Uses 2 retries in CI
-- Single worker in CI (parallel locally)
-- Tests expect a clean state (no dev server running)
+3. Install dependencies with `npm ci`
+4. Install Playwright Chromium
+5. Build the static site
+6. Run Playwright tests
 
 ## Key Files
 
-- `src/components/RandomGenerator.tsx` - Main React component with all generation logic
-- `src/layouts/Layout.astro` - Base layout template
-- `src/pages/index.astro` - Main page
+- `index.html` - Page structure
+- `app.js` - Random generation, DOM updates, copy behavior, and embedded name data
+- `styles.css` - Site styling
 - `tests/sanity.spec.js` - Basic sanity tests
 - `tests/generate-button.spec.js` - Comprehensive format validation tests
 - `playwright.config.js` - Playwright test configuration
-- `.github/workflows/playwright-e2e.yml` - CI/CD workflow
+- `.github/workflows/playwright-e2e.yml` - CI workflow
 
 ## Data Sources
 
-- `first-names.json` - 4,958 first names
-- `names.json` - 21,986 last names
+The first-name and last-name datasets are embedded directly in `app.js` so the browser runtime remains a single JavaScript file with no JSON fetches or framework bundling.
 
 ## Common Tasks for AI Agents
 
 ### When Adding New Features
-
-1. **Explore the codebase first** to understand existing patterns
-2. **Follow existing conventions** (no linting tools configured, so manual review required)
-3. **Update tests** if changing generation logic:
-   - Add new test cases to `tests/generate-button.spec.js`
-   - Ensure format validation regex patterns are updated
-4. **Always build** before committing: `npm run build`
-5. **Always test** before committing: `npm run test`
-6. **Manual validation** is mandatory for UI changes
+1. Preserve the plain static architecture.
+2. Update tests if changing generated formats or UI selectors.
+3. Run `npm run build`.
+4. Run `npm run test`.
+5. Manually validate browser behavior for UI changes.
 
 ### When Fixing Bugs
-
-1. **Write a failing test first** that reproduces the bug
-2. **Fix the bug** with minimal changes
-3. **Verify the test passes** and all other tests still pass
-4. **Manually verify** the fix in the browser
+1. Add or update a focused failing test when practical.
+2. Fix the bug with minimal changes.
+3. Verify the focused test and full suite pass.
+4. Manually verify in the browser when behavior is user-facing.
 
 ### When Refactoring
-
-1. **Ensure all tests pass** before refactoring
-2. **Make incremental changes** and test after each change
-3. **Don't change working functionality** unless necessary
-4. **All tests must still pass** after refactoring
+1. Keep the same generated formats unless the task asks otherwise.
+2. Preserve selectors used by Playwright tests.
+3. Avoid reintroducing framework dependencies.
 
 ## Code Quality
 
-- **No linting tools** are configured (no ESLint, Prettier)
-- Manual code review and adherence to existing patterns is required
-- Follow the existing code style in `src/components/RandomGenerator.tsx`
-- Keep the static site architecture (no backend/database)
-
-## Performance Notes
-
-- Static site with minimal JavaScript bundle
-- Very fast build process (~3 seconds)
-- Fast test execution (~2 seconds)
-- Development server starts in ~1 second
+- No linting tools are configured.
+- Keep changes small and readable.
+- Use browser APIs directly; do not add a framework or bundler.
+- Keep the site static with no backend/database dependencies.
 
 ## Troubleshooting
 
-- **"Port already in use" error**: Stop existing dev server with `Ctrl+C`
-- **Test failures**: Ensure dev server is stopped before running `npm run test`
-- **Build issues**: Check Node.js version (requires 18+)
-- **Missing browser error**: Run `npx playwright install chromium`
+- Port conflict: check `ss -ltnp 'sport = :4322'`.
+- Missing browser: run `npx playwright install chromium`.
+- Build issues: check Node.js version compatibility.
 
 ## Security Considerations
 
-- All random generation uses secure random number generation where applicable
-- No sensitive data is stored or transmitted
-- Static site with no backend means minimal attack surface
-- UUID generation uses v4 (random) for maximum entropy
-
-## Best Practices for AI Agents
-
-1. **Always stop the dev server before running tests** to avoid conflicts
-2. **Test comprehensively** - use both automated tests and manual validation
-3. **Make minimal changes** - don't refactor unnecessarily
-4. **Follow existing patterns** - consistency over personal preference
-5. **Document significant changes** in commit messages
-6. **Validate in CI** - ensure GitHub Actions workflow passes
-7. **Check formats** - use the comprehensive tests as a reference for expected formats
+- Random generation uses `crypto.getRandomValues` and `crypto.randomUUID` when available.
+- No sensitive data is stored or transmitted.
+- The site has no backend runtime.
