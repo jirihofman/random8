@@ -4,7 +4,7 @@
   "private": false,
   "author": {
     "email": "jiri.hofman@gmail.com",
-    "name": "Jiří Hofman",
+    "name": "Ji\u0159\u00ed Hofman",
     "url": "https://github.com/jirihofman/random8"
   },
   "description": "Random generator of names, emails, codes, passwords and complete personas. All in one place and as simple as it could possibly be.",
@@ -17,6 +17,9 @@
     "test:ui": "playwright test --ui"
   },
   "devDependencies": {
-    "@playwright/test": "~1.61.1"
+    "@playwright/test": "^1.63.0"
+  },
+  "engines": {
+    "node": ">=22"
   }
 }
